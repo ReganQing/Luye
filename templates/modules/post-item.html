@@ -5,7 +5,7 @@
       <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
     </a>
     <span class="post-date" th:if="${post.spec.publishTime != null}"
-          th:text="${#temporals.format(post.spec.publishTime, 'MMM d, yyyy')}">Jan 1, 2026</span>
+          th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
   </div>
   <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
      th:text="${post.status.excerpt}">文章摘要……</p>

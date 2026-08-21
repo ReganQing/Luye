@@ -59,7 +59,7 @@
                  th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
               <span class="post-date" style="margin-left:auto;"
                     th:if="${post.spec.publishTime != null}"
-                    th:text="${#temporals.format(post.spec.publishTime, 'MMM d, yyyy')}">Jan 1, 2026</span>
+                    th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
             </div>
           </article>
           <!-- 普通列表项 -->

@@ -11,7 +11,7 @@
       <h1 class="headline" th:text="${post.spec.title}">文章标题</h1>
       <div class="post-meta-bar">
         <span th:if="${post.spec.publishTime != null}"
-              th:text="${#temporals.format(post.spec.publishTime, 'yyyy-MM-dd')}">2026-01-01</span>
+              th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'yyyy-MM-dd')}">2026-01-01</span>
         <span class="sep">·</span>
         <span th:text="${post.owner.displayName}">作者</span>
         <span class="sep" th:if="${post.stats != null}">·</span>

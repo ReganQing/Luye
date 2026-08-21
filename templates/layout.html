@@ -12,7 +12,9 @@
   <link rel="stylesheet" th:href="@{/assets/css/style.css}">
   <style th:if="${theme.config.style.accent_color != null and theme.config.style.accent_color != ''}"
         th:inline="text">:root{--green:[[${theme.config.style.accent_color}]];}</style>
-  <th:block th:if="${head != null}" th:replace="${head}"></th:block>
+  <th:block th:if="${head != null}">
+    <th:block th:replace="${head}"></th:block>
+  </th:block>
 </head>
 <body>
   <!-- 装饰雾光 -->
