@@ -1,0 +1,88 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: theme-luye-setting
+spec:
+  forms:
+    - group: basic
+      label: 基础
+      formSchema:
+        - $formkit: text
+          name: brand_sub
+          label: 品牌副标题
+          value: "SOFTWARE · AI"
+          help: 导航栏 Logo 名称下方的小字，建议英文短语。
+        - $formkit: attachment
+          name: avatar
+          label: 站长头像
+          value: ""
+          help: 用于「关于我」页面、作者页与文章作者信息。留空时使用山峰图标徽章。
+    - group: hero
+      label: 首页 Hero
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 显示 Hero 区域
+          value: true
+        - $formkit: text
+          name: eyebrow
+          label: 眉题
+          value: "SOFTWARE & AI ENGINEER · 软件与人工智能工程师"
+        - $formkit: text
+          name: title
+          label: 主标题
+          value: "在代码与智能之间，造一片绿野"
+        - $formkit: textarea
+          name: subtitle
+          label: 副标题
+          value: "这里收录我的开源作品、技术随笔与实验——关于工程，关于智能，也关于如何把复杂变简单。"
+        - $formkit: attachment
+          name: image
+          label: 横幅图
+          value: ""
+          help: Hero 区域底部的意象图，建议宽幅深色图片，留空则不显示。
+        - $formkit: text
+          name: cta_text
+          label: 主按钮文案
+          value: "看看我的文章"
+        - $formkit: text
+          name: cta_anchor
+          label: 主按钮目标
+          value: "#posts"
+          help: 可填页内锚点（如 #posts）或完整链接。
+    - group: style
+      label: 外观
+      formSchema:
+        - $formkit: color
+          name: accent_color
+          label: 主题强调色
+          value: "#7DD9A6"
+        - $formkit: checkbox
+          name: weather
+          label: 启用天气背景特效
+          value: true
+          help: 导航栏出现晴 / 雨 / 雪切换按钮，Canvas 粒子背景，用户选择保存在浏览器本地。
+        - $formkit: checkbox
+          name: webfont
+          label: 加载在线衬线字体
+          value: true
+          help: 加载 Google Fonts 的 Noto Serif SC / Noto Sans SC / Source Serif 4。国内访问缓慢时可关闭，自动回退系统字体。
+    - group: footer
+      label: 页脚
+      formSchema:
+        - $formkit: text
+          name: tagline
+          label: 页脚标语
+          value: "写代码，也写思考。"
+        - $formkit: text
+          name: email
+          label: 联系邮箱
+          value: ""
+        - $formkit: text
+          name: github
+          label: GitHub 主页
+          value: "https://github.com/ReganQing"
+        - $formkit: text
+          name: copyright
+          label: 版权文案
+          value: "代码与思考"

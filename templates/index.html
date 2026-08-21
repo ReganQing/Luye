@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layout :: html(head=null, content=~{::content})}">
+<th:block th:fragment="content">
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" th:if="${theme.config.hero.enable == null or theme.config.hero.enable}">
+    <p class="eyebrow" th:if="${theme.config.hero.eyebrow != null and theme.config.hero.eyebrow != ''}"
+       th:text="${theme.config.hero.eyebrow}">眉题</p>
+    <h1 class="headline" th:text="${theme.config.hero.title}">主标题</h1>
+    <p class="sub" th:if="${theme.config.hero.subtitle != null and theme.config.hero.subtitle != ''}"
+       th:text="${theme.config.hero.subtitle}">副标题</p>
+    <div class="cta-row">
+      <a class="cta-primary"
+         th:if="${theme.config.hero.cta_text != null and theme.config.hero.cta_text != ''}"
+         th:href="${theme.config.hero.cta_anchor != null and theme.config.hero.cta_anchor != ''} ? ${theme.config.hero.cta_anchor} : '#posts'"
+         th:text="${theme.config.hero.cta_text}">看看我的文章</a>
+      <a class="secondary-link" th:href="@{/archives}">浏览全部文章 ↓</a>
+    </div>
+    <p class="scroll-hint">向下，进入我的世界</p>
+    <img class="hero-img"
+         th:if="${theme.config.hero.image != null and theme.config.hero.image != ''}"
+         th:src="${theme.config.hero.image}" alt="横幅意象图">
+  </section>
+
+  <!-- ===================== POSTS ===================== -->
+  <section class="section" id="posts" th:styleappend="${theme.config.hero.enable} ? 'padding-top:20px;' : ''">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">WRITING · 技术随笔</p>
+        <h2 class="title">写下来，才算想明白</h2>
+      </div>
+
+      <th:block th:if="${#lists.isEmpty(posts.items)}">
+        <div class="empty-tip">还没有发布文章，去 Halo 后台写第一篇吧。</div>
+      </th:block>
+
+      <div class="post-list">
+        <th:block th:each="post, iterStat : ${posts.items}">
+          <!-- 置顶且有封面：大卡片 -->
+          <article class="post-featured reveal"
+                   th:if="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+            <div class="card-top">
+              <span class="idx">置顶</span>
+              <img class="leaf" th:src="@{/assets/svg/leaf-2.svg}" alt="">
+            </div>
+            <a th:href="@{${post.status.permalink}}">
+              <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
+            </a>
+            <img class="cover" th:src="${post.spec.cover}" alt="">
+            <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
+               th:text="${post.status.excerpt}">摘要</p>
+            <div class="post-meta">
+              <a class="cat-pill" th:each="category : ${post.categories}"
+                 th:href="@{${category.status.permalink}}"
+                 th:text="${category.spec.displayName}">分类</a>
+              <a class="tag-pill" th:each="tag : ${post.tags}"
+                 th:href="@{${tag.status.permalink}}"
+                 th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+              <span class="post-date" style="margin-left:auto;"
+                    th:if="${post.spec.publishTime != null}"
+                    th:text="${#temporals.format(post.spec.publishTime, 'MMM d, yyyy')}">Jan 1, 2026</span>
+            </div>
+          </article>
+          <!-- 普通列表项 -->
+          <th:block th:unless="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+            <th:block th:replace="~{modules/post-item :: post-item}"></th:block>
+          </th:block>
+        </th:block>
+      </div>
+
+      <th:block th:replace="~{modules/pagination :: pagination}"></th:block>
+    </div>
+  </section>
+
+</th:block>
+</html>

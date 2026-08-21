@@ -1,0 +1,65 @@
+/* 绿野 Luye · 主题交互脚本
+ * 移动端导航 / 滚动显现 / 返回顶部 / 导航高亮
+ */
+(function () {
+  'use strict';
+
+  // ---------- 移动端导航 ----------
+  var toggle = document.getElementById('nav-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', function () {
+      document.body.classList.toggle('nav-open');
+    });
+    // 点击菜单项后收起
+    var links = document.querySelectorAll('.nav-center a');
+    for (var i = 0; i < links.length; i++) {
+      links[i].addEventListener('click', function () {
+        document.body.classList.remove('nav-open');
+      });
+    }
+  }
+
+  // ---------- 返回顶部 ----------
+  var toTop = document.getElementById('to-top');
+  if (toTop) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          toTop.classList.toggle('show', window.scrollY > window.innerHeight * 0.6);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ---------- 滚动显现（尊重 prefers-reduced-motion，CSS 侧亦有兜底） ----------
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.10 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+
+  // ---------- 导航高亮（按路径匹配） ----------
+  try {
+    var path = window.location.pathname.replace(/\/+$/, '') || '/';
+    document.querySelectorAll('.nav-center a').forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      if (!href || href.charAt(0) === '#') { return; }
+      var ap;
+      try {
+        ap = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
+      } catch (e) { return; }
+      if (ap === path) { a.classList.add('active'); }
+    });
+  } catch (e) { /* 忽略 */ }
+})();

@@ -1,0 +1,27 @@
+apiVersion: theme.halo.run/v1alpha1
+kind: Theme
+metadata:
+  name: theme-luye
+spec:
+  displayName: 绿野 Luye
+  author:
+    name: Ron567
+    website: https://github.com/ReganQing
+  description: 深绿玻璃拟态（Glassmorphism）风格的 Halo 2 主题，视觉语言移植自 Ron567 个人主页：雾绿光晕、玻璃卡片、衬线大标题与晴雨雪三种背景粒子特效。
+  logo: logo.png
+  homepage: https://github.com/ReganQing/theme-luye
+  repo: https://github.com/ReganQing/theme-luye
+  issues: https://github.com/ReganQing/theme-luye/issues
+  settingName: theme-luye-setting
+  configMapName: theme-luye-configMap
+  customTemplates:
+    page:
+      - name: 关于我
+        description: 个人介绍版式：眉题 + 大标题 + 头像圆形玻璃徽章 + 正文，适合「关于」页面。
+        screenshot: ""
+        file: page_about.html
+  version: 1.0.0
+  requires: 2.26.0
+  license:
+    - name: GPL-3.0
+      url: https://www.gnu.org/licenses/gpl-3.0.html
