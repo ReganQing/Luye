@@ -84,7 +84,7 @@ theme-luye/
 - **天气特效不显示**：确认主题设置 → 外观 → 「启用天气背景特效」已开启；切换按钮在导航栏右侧；用户的选择保存在浏览器本地，重新点击可关闭。
 - **评论区不显示**：需安装并启用评论插件，且文章/页面开启了评论；未安装评论插件时评论区自动隐藏。
 - **安装后页面报错**：确认 Halo 版本 ≥ 2.26.0，本主题使用了 2.26.0 引入的 `layout.html` 页面布局契约。
-- **其他问题**：请携带 Halo 版本与报错截图提交 Issue：https://github.com/ReganQing/theme-luye/issues
+- **其他问题**：请携带 Halo 版本与报错截图提交 Issue：https://github.com/ReganQing/Luye/issues
 
 ## 许可
 

@@ -9,9 +9,9 @@ spec:
     website: https://github.com/ReganQing
   description: 深绿玻璃拟态（Glassmorphism）风格的 Halo 2 主题，视觉语言移植自 Ron567 个人主页：雾绿光晕、玻璃卡片、衬线大标题与晴雨雪三种背景粒子特效。
   logo: logo.png
-  homepage: https://github.com/ReganQing/theme-luye
-  repo: https://github.com/ReganQing/theme-luye
-  issues: https://github.com/ReganQing/theme-luye/issues
+  homepage: https://github.com/ReganQing/Luye
+  repo: https://github.com/ReganQing/Luye
+  issues: https://github.com/ReganQing/Luye/issues
   settingName: theme-luye-setting
   configMapName: theme-luye-configMap
   customTemplates:
