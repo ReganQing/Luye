@@ -275,6 +275,8 @@ button{font-family:inherit;}
 }
 .post-meta-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;font-size:14px;color:var(--sub);}
 .post-meta-bar .sep{color:var(--muted);opacity:.6;}
+.reading-time{display:inline-flex;align-items:center;gap:5px;}
+.reading-time-icon{width:14px;height:14px;flex-shrink:0;}
 .post-cover{
   width:100%;max-width:1000px;margin:30px auto 0;display:block;
   border-radius:24px;border:1px solid var(--glass-border);object-fit:cover;
