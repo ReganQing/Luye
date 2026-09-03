@@ -12,6 +12,7 @@
   /* Brand & text */
   --text:#EAF3EC;      /* headings / brand name */
   --green:#7DD9A6;     /* accent（可被主题设置覆盖） */
+  --amber:#E8B96E;     /* warm highlight（数字徽章 / 点缀） */
   --sub:#9DB5A8;       /* secondary text */
   --muted:#6E8B7C;     /* muted / captions */
   --para:#B9CDBF;      /* paragraph body */
@@ -245,6 +246,97 @@ button{font-family:inherit;}
   width:100%;aspect-ratio:2.8/1;object-fit:cover;border-radius:14px;
   border:1px solid var(--glass-border-soft);
 }
+
+/* ============================ 数据徽章行（Hero） ============================ */
+.hero-stats{
+  display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;
+}
+.stat{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.stat-num{
+  font-family:var(--serif-en);font-style:italic;
+  font-size:28px;line-height:1;color:var(--amber);
+}
+.stat-label{font-weight:300;font-size:12px;color:var(--muted);}
+.stat-sep{width:1px;height:28px;background:var(--glass-border);}
+
+/* 搜索按钮（导航栏） */
+.search-btn{
+  display:flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:9999px;
+  background:var(--glass);border:1px solid var(--glass-border);
+  color:var(--light);
+  transition:color .3s ease,border-color .3s ease;
+}
+.search-btn:hover{color:var(--text);border-color:var(--green-stroke);}
+.search-btn:focus-visible{outline:2px solid var(--green-stroke-strong);outline-offset:2px;}
+.search-btn svg{width:16px;height:16px;display:block;}
+
+/* ============================ 精选专题卡 ============================ */
+.featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.featured-card{
+  display:flex;flex-direction:column;gap:14px;padding:24px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-card);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.20);
+  transition:transform .35s cubic-bezier(.16,1,.3,1),box-shadow .35s ease,border-color .35s ease;
+}
+.featured-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,0.35);border-color:var(--green-stroke);}
+.featured-cover{
+  position:relative;display:flex;align-items:flex-end;
+  height:160px;border-radius:14px;overflow:hidden;
+  border:1px solid var(--glass-border-soft);
+}
+.featured-cover img{position:absolute;top:12px;right:12px;width:40px;height:40px;opacity:.18;}
+.featured-cover.fc-1{background:linear-gradient(120deg,#0D1F17 0%,#1A3329 100%);}
+.featured-cover.fc-2{background:linear-gradient(120deg,#0A1712 0%,#14303F 100%);}
+.featured-cover.fc-3{background:linear-gradient(120deg,#0D1712 0%,#2E2A14 100%);}
+.featured-card .post-title{font-size:19px;line-height:145%;}
+.featured-card .post-excerpt{font-size:14px;}
+.featured-meta{font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--muted);}
+
+/* ============================ 文章双列网格 ============================ */
+.post-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.post-grid .post-featured{grid-column:1 / -1;}
+.post-card{
+  display:flex;flex-direction:column;gap:12px;padding:26px;
+  background:var(--glass-2);
+  border:1px solid var(--glass-border-soft);
+  border-radius:var(--radius-item);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.15);
+  transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .3s ease,background .3s ease;
+}
+.post-card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--green) 30%,transparent);background:color-mix(in srgb,var(--green) 4%,transparent);}
+.post-card .post-title{font-size:19px;line-height:145%;}
+.post-card .post-excerpt{-webkit-line-clamp:2;}
+.post-card .post-date{margin-top:auto;font-size:13px;color:var(--muted);}
+
+/* ============================ 首页作者卡片 ============================ */
+.author-section{padding:0 0;}
+.author-card{
+  display:flex;align-items:center;gap:32px;padding:40px;
+  background:var(--glass);
+  border:1px solid var(--green-stroke);
+  border-radius:24px;
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 12px 30px rgba(0,0,0,0.20);
+}
+.author-card .avatar-badge{
+  width:160px;height:160px;border-radius:9999px;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:var(--glass);
+  border:1px solid color-mix(in srgb,var(--green) 30%,transparent);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.25);
+}
+.author-card .avatar-badge img.photo{width:100%;height:100%;object-fit:cover;}
+.author-card .avatar-badge img.badge{width:64px;height:64px;display:block;}
+.author-card .info{display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-width:0;}
+.author-card .nm{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.2;color:var(--text);}
+.author-card .bio{font-weight:300;font-size:15px;line-height:180%;color:var(--sub);}
+.author-card .contact-row{justify-content:flex-start;}
 
 /* ============================ 网格卡片（分类 / 标签 / 友链） ============================ */
 .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
@@ -535,4 +627,10 @@ button{font-family:inherit;}
   .hero-img{aspect-ratio:2.4/1;border-radius:16px;}
   .footer{margin-top:64px;padding-top:60px;}
   .to-top{right:16px;bottom:16px;width:42px;height:42px;}
+  .hero-stats{gap:20px;}
+  .featured-grid{grid-template-columns:1fr;}
+  .post-grid{grid-template-columns:1fr;}
+  .author-card{flex-direction:column;text-align:center;padding:28px;gap:24px;}
+  .author-card .info{align-items:center;}
+  .author-card .contact-row{justify-content:center;}
 }

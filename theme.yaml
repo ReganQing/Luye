@@ -20,7 +20,7 @@ spec:
         description: 个人介绍版式：眉题 + 大标题 + 头像圆形玻璃徽章 + 正文，适合「关于」页面。
         screenshot: ""
         file: page_about.html
-  version: 1.0.1
+  version: 1.1.0
   requires: 2.26.0
   license:
     - name: GPL-3.0

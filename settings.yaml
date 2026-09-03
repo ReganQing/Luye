@@ -17,6 +17,11 @@ spec:
           label: 站长头像
           value: ""
           help: 用于「关于我」页面、作者页与文章作者信息。留空时使用山峰图标徽章。
+        - $formkit: text
+          name: search_url
+          label: 搜索页链接
+          value: ""
+          help: 填写后导航栏显示搜索图标按钮（例如安装搜索插件后填 /search）。留空则不显示。
     - group: hero
       label: 首页 Hero
       formSchema:
@@ -50,6 +55,67 @@ spec:
           label: 主按钮目标
           value: "#posts"
           help: 可填页内锚点（如 #posts）或完整链接。
+        - $formkit: checkbox
+          name: show_stats
+          label: 显示数据徽章行
+          value: true
+          help: 在 CTA 按钮下方展示 文章 / 分类 / 标签 数量徽章，数字使用琥珀色点缀。
+        - $formkit: text
+          name: stat_visits
+          label: 访问量徽章文案
+          value: ""
+          help: 显示在徽章行末尾（如 12.5k）。站点无统计接入时建议留空隐藏。
+    - group: featured
+      label: 精选专题
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 显示精选专题
+          value: true
+        - $formkit: text
+          name: eyebrow
+          label: 眉题
+          value: "FEATURED · 精选专题"
+        - $formkit: text
+          name: title
+          label: 标题
+          value: "值得停下来读的几篇"
+        - $formkit: textarea
+          name: desc
+          label: 描述
+          value: "自动挑选最近三篇带封面的文章，作为首页的精选入口。"
+          help: 精选卡片自动取最近 3 篇设置了封面的文章。
+    - group: posts
+      label: 文章列表
+      formSchema:
+        - $formkit: select
+          name: layout
+          label: 列表布局
+          value: "grid"
+          options:
+            - {label: "双列网格卡（推荐）", value: "grid"}
+            - {label: "经典纵向列表", value: "list"}
+          help: 置顶文章始终以大卡片展示，其余文章按此布局排列。
+    - group: author
+      label: 首页作者卡片
+      formSchema:
+        - $formkit: checkbox
+          name: enable
+          label: 显示作者卡片
+          value: true
+        - $formkit: text
+          name: eyebrow
+          label: 眉题
+          value: "ABOUT ME · 关于我"
+        - $formkit: text
+          name: name
+          label: 署名
+          value: "Ron567"
+          help: 留空时使用站点标题。
+        - $formkit: textarea
+          name: bio
+          label: 简介
+          value: "软件与人工智能工程师。在控制系统、接口测试与开源工具之间游走，相信把复杂变简单是工程的美德。"
     - group: style
       label: 外观
       formSchema:

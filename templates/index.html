@@ -17,14 +17,80 @@
          th:text="${theme.config.hero.cta_text}">看看我的文章</a>
       <a class="secondary-link" th:href="@{/archives}">浏览全部文章 ↓</a>
     </div>
+
+    <!-- 数据徽章行（1.1.0 新增） -->
+    <div class="hero-stats reveal"
+         th:if="${theme.config.hero.show_stats == null or theme.config.hero.show_stats}"
+         th:with="postTotal = ${postFinder.list(1, 1).total}">
+      <div class="stat">
+        <span class="stat-num" th:text="${postTotal}">48</span>
+        <span class="stat-label">文章</span>
+      </div>
+      <span class="stat-sep" aria-hidden="true"></span>
+      <div class="stat">
+        <span class="stat-num" th:text="${#lists.size(categoryFinder.getAll())}">6</span>
+        <span class="stat-label">分类</span>
+      </div>
+      <span class="stat-sep" aria-hidden="true"></span>
+      <div class="stat">
+        <span class="stat-num" th:text="${#lists.size(tagFinder.getAll())}">23</span>
+        <span class="stat-label">标签</span>
+      </div>
+      <th:block th:if="${theme.config.hero.stat_visits != null and theme.config.hero.stat_visits != ''}">
+        <span class="stat-sep" aria-hidden="true"></span>
+        <div class="stat">
+          <span class="stat-num" th:text="${theme.config.hero.stat_visits}">12.5k</span>
+          <span class="stat-label">访问</span>
+        </div>
+      </th:block>
+    </div>
+
     <p class="scroll-hint">向下，进入我的世界</p>
     <img class="hero-img"
          th:if="${theme.config.hero.image != null and theme.config.hero.image != ''}"
          th:src="${theme.config.hero.image}" alt="横幅意象图">
   </section>
 
+  <!-- ===================== 精选专题（1.1.0 新增） ===================== -->
+  <section class="section" id="featured"
+           th:if="${theme.config.featured?.enable == null or theme.config.featured?.enable}"
+           th:with="featuredPosts = ${postFinder.list(1, 10).items.?[spec.cover != null and spec.cover != '']}">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow" th:text="${theme.config.featured?.eyebrow} ?: 'FEATURED · 精选专题'">FEATURED · 精选专题</p>
+        <h2 class="title" th:text="${theme.config.featured?.title} ?: '值得停下来读的几篇'">值得停下来读的几篇</h2>
+        <p class="desc" th:if="${theme.config.featured?.desc != null and theme.config.featured?.desc != ''}"
+           th:text="${theme.config.featured.desc}">描述文案</p>
+      </div>
+
+      <div class="featured-grid" th:if="${featuredPosts != null and !#lists.isEmpty(featuredPosts)}">
+        <article class="featured-card reveal"
+                 th:each="fpost, st : ${featuredPosts}"
+                 th:if="${st.index < 3}">
+          <a class="featured-cover" th:classappend="|fc-${st.index + 1}|"
+             th:href="@{${fpost.status.permalink}}" tabindex="-1" aria-hidden="true">
+            <img th:src="@{/assets/svg/leaf.svg}" alt="">
+          </a>
+          <div class="post-meta">
+            <a class="cat-pill" th:each="category : ${fpost.categories}"
+               th:href="@{${category.status.permalink}}"
+               th:text="${category.spec.displayName}">分类</a>
+          </div>
+          <a th:href="@{${fpost.status.permalink}}">
+            <h3 class="post-title" th:text="${fpost.spec.title}">文章标题</h3>
+          </a>
+          <p class="post-excerpt" th:if="${fpost.status.excerpt != null and fpost.status.excerpt != ''}"
+             th:text="${fpost.status.excerpt}">摘要</p>
+          <span class="featured-meta" th:if="${fpost.spec.publishTime != null}"
+                th:text="${#dates.format(new java.util.Date(fpost.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 12, 2026</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ===================== POSTS ===================== -->
-  <section class="section" id="posts" th:styleappend="${theme.config.hero.enable} ? 'padding-top:20px;' : ''">
+  <section class="section" id="posts" th:styleappend="${theme.config.hero.enable} ? 'padding-top:20px;' : ''"
+           th:with="postLayout = ${theme.config.posts?.layout} ?: 'grid'">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow">WRITING · 技术随笔</p>
@@ -35,7 +101,8 @@
         <div class="empty-tip">还没有发布文章，去 Halo 后台写第一篇吧。</div>
       </th:block>
 
-      <div class="post-list">
+      <!-- 经典纵向列表布局 -->
+      <div class="post-list" th:if="${postLayout == 'list'}">
         <th:block th:each="post, iterStat : ${posts.items}">
           <!-- 置顶且有封面：大卡片 -->
           <article class="post-featured reveal"
@@ -69,7 +136,93 @@
         </th:block>
       </div>
 
+      <!-- 双列网格布局（1.1.0 新增，默认） -->
+      <div class="post-grid" th:if="${postLayout == 'grid'}">
+        <th:block th:each="post, iterStat : ${posts.items}">
+          <!-- 置顶且有封面：通栏大卡片 -->
+          <article class="post-featured reveal"
+                   th:if="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+            <div class="card-top">
+              <span class="idx">置顶</span>
+              <img class="leaf" th:src="@{/assets/svg/leaf-2.svg}" alt="">
+            </div>
+            <a th:href="@{${post.status.permalink}}">
+              <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
+            </a>
+            <img class="cover" th:src="${post.spec.cover}" alt="">
+            <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
+               th:text="${post.status.excerpt}">摘要</p>
+            <div class="post-meta">
+              <a class="cat-pill" th:each="category : ${post.categories}"
+                 th:href="@{${category.status.permalink}}"
+                 th:text="${category.spec.displayName}">分类</a>
+              <a class="tag-pill" th:each="tag : ${post.tags}"
+                 th:href="@{${tag.status.permalink}}"
+                 th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+              <span class="post-date" style="margin-left:auto;"
+                    th:if="${post.spec.publishTime != null}"
+                    th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
+            </div>
+          </article>
+          <!-- 普通文章：网格卡 -->
+          <article class="post-card reveal"
+                   th:unless="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+            <div class="post-meta">
+              <a class="cat-pill" th:each="category : ${post.categories}"
+                 th:href="@{${category.status.permalink}}"
+                 th:text="${category.spec.displayName}">分类</a>
+              <a class="tag-pill" th:each="tag : ${post.tags}"
+                 th:href="@{${tag.status.permalink}}"
+                 th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+            </div>
+            <a th:href="@{${post.status.permalink}}">
+              <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
+            </a>
+            <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
+               th:text="${post.status.excerpt}">摘要</p>
+            <span class="post-date" th:if="${post.spec.publishTime != null}"
+                  th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
+          </article>
+        </th:block>
+      </div>
+
       <th:block th:replace="~{modules/pagination :: pagination}"></th:block>
+
+      <div class="section-foot" th:if="${posts.hasNext}">
+        <a class="more-link" th:href="@{/archives}">查看全部文章</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 作者卡片（1.1.0 新增） ===================== -->
+  <section class="section author-section"
+           th:if="${theme.config.author?.enable == null or theme.config.author?.enable}">
+    <div class="container">
+      <div class="author-card reveal">
+        <div class="avatar-badge">
+          <img class="photo"
+               th:if="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
+               th:src="${theme.config.basic.avatar}" alt="作者头像">
+          <img class="badge"
+               th:unless="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
+               th:src="@{/assets/svg/leaf.svg}" alt="">
+        </div>
+        <div class="info">
+          <p class="eyebrow" th:text="${theme.config.author?.eyebrow} ?: 'ABOUT ME · 关于我'">ABOUT ME · 关于我</p>
+          <span class="nm" th:text="${theme.config.author?.name != null and theme.config.author?.name != ''} ? ${theme.config.author.name} : ${site.title}">Ron567</span>
+          <p class="bio" th:if="${theme.config.author?.bio != null and theme.config.author?.bio != ''}"
+             th:text="${theme.config.author.bio}">简介文案</p>
+          <div class="contact-row">
+            <a class="contact-pill"
+               th:if="${theme.config.footer.email != null and theme.config.footer.email != ''}"
+               th:href="'mailto:' + ${theme.config.footer.email}">邮箱</a>
+            <a class="contact-pill" target="_blank" rel="noopener"
+               th:if="${theme.config.footer.github != null and theme.config.footer.github != ''}"
+               th:href="${theme.config.footer.github}">GitHub</a>
+            <a class="contact-pill" th:href="@{/archives}">文章归档</a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 

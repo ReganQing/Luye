@@ -26,6 +26,11 @@
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
       </button>
     </div>
+    <a class="search-btn"
+       th:if="${theme.config.basic?.search_url != null and theme.config.basic?.search_url != ''}"
+       th:href="@{${theme.config.basic.search_url}}" aria-label="搜索" title="搜索">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </a>
     <a class="nav-cta" th:if="${theme.config.footer.email != null and theme.config.footer.email != ''}"
        th:href="'mailto:' + ${theme.config.footer.email}">联系我</a>
   </div>
