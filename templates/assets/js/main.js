@@ -1,5 +1,5 @@
 /* 绿野 Luye · 主题交互脚本
- * 移动端导航 / 滚动显现 / 返回顶部 / 导航高亮
+ * 移动端导航 / 滚动显现 / 返回顶部 / 导航高亮 / 阅读时间
  */
 (function () {
   'use strict';
@@ -62,4 +62,20 @@
       if (ap === path) { a.classList.add('active'); }
     });
   } catch (e) { /* 忽略 */ }
+
+  // ---------- 阅读时间 ----------
+  var postContent = document.querySelector('.post-content');
+  var readingTimeEl = document.querySelector('.reading-time');
+  if (postContent && readingTimeEl) {
+    var text = postContent.textContent || postContent.innerText || '';
+    text = text.replace(/\s+/g, '');
+    var cjk = (text.match(/[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/g) || []).length;
+    var nonCjk = text.replace(/[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/g, ' ');
+    var words = nonCjk.split(/\s+/).filter(function (w) { return w.length > 0; }).length;
+    var minutes = Math.ceil(cjk / 400 + words / 200);
+    if (minutes < 1) minutes = 1;
+    var textEl = readingTimeEl.querySelector('.reading-time-text');
+    if (textEl) textEl.textContent = minutes + ' 分钟阅读';
+    readingTimeEl.removeAttribute('hidden');
+  }
 })();
