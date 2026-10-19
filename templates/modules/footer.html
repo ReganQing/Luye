@@ -8,6 +8,8 @@
             th:text="${theme.config.footer.tagline}">写代码，也写思考。</span>
     </div>
     <div class="contact-row">
+      <a class="contact-pill" th:if="${!#strings.isEmpty(theme.config.basic?.personal_home)}"
+         th:href="${theme.config.basic.personal_home}">个人主页</a>
       <a class="contact-pill"
          th:if="${theme.config.footer.email != null and theme.config.footer.email != ''}"
          th:href="'mailto:' + ${theme.config.footer.email}"

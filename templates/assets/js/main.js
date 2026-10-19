@@ -59,7 +59,9 @@
       try {
         ap = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
       } catch (e) { return; }
-      if (ap === path) { a.classList.add('active'); }
+      if (new URL(href, window.location.origin).origin === window.location.origin && ap === path) {
+        a.classList.add('active');
+      }
     });
   } catch (e) { /* 忽略 */ }
 

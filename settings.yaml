@@ -22,6 +22,24 @@ spec:
           label: 搜索页链接
           value: ""
           help: 填写后导航栏显示搜索图标按钮（例如安装搜索插件后填 /search）。留空则不显示。
+        - $formkit: text
+          name: personal_home
+          label: 个人主页链接
+          value: ""
+          help: 填写完整地址后，在导航和页脚显示个人主页入口。
+    - group: seo
+      label: SEO
+      formSchema:
+        - $formkit: checkbox
+          name: enable_metadata
+          label: 输出规范链接和社交分享标签
+          value: true
+          help: 已由插件生成 canonical、Open Graph、Twitter Card 时关闭，避免重复。
+        - $formkit: checkbox
+          name: enable_structured_data
+          label: 输出文章结构化数据
+          value: true
+          help: 输出 BlogPosting JSON-LD；已由插件提供时关闭。站点描述和文章摘要仍由 Halo 管理。
     - group: hero
       label: 首页 Hero
       formSchema:
