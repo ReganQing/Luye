@@ -9,6 +9,8 @@
   </a>
 
   <div class="nav-center" id="nav-center">
+    <a th:if="${!#strings.isEmpty(theme.config.basic?.personal_home)}"
+       th:href="${theme.config.basic.personal_home}">个人主页</a>
     <a th:each="menuItem : ${menu != null ? menu.menuItems : {}}"
        th:href="@{${menuItem.status.href}}"
        th:text="${menuItem.status.displayName}">导航项</a>

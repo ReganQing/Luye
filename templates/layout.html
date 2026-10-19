@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${site.title}">站点标题</title>
+  <title th:if="${head == null}" th:text="${site.title}">站点标题</title>
   <th:block th:if="${theme.config.style.webfont == null or theme.config.style.webfont}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

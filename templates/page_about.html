@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layout :: html(head=null, content=~{::content})}">
+      th:replace="~{layout :: html(head=~{::head}, content=~{::content})}">
+<th:block th:fragment="head">
+  <th:block th:replace="~{modules/seo :: head(title=|${singlePage.spec.title} - ${site.title}|, path=${singlePage.status.permalink}, description=${singlePage.status.excerpt}, image=${singlePage.spec.cover ?: site.logo}, type='website')}"></th:block>
+</th:block>
 <th:block th:fragment="content">
   <div class="container">
 

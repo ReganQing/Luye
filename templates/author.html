@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layout :: html(head=null, content=~{::content})}">
+      th:replace="~{layout :: html(head=~{::head}, content=~{::content})}">
+<th:block th:fragment="head">
+  <th:block th:replace="~{modules/seo :: head(title=${author.spec.displayName + (posts.page > 1 ? ' - 第 ' + posts.page + ' 页' : '') + ' - ' + site.title}, path=${'/authors/' + author.metadata.name + (posts.page > 1 ? '/page/' + posts.page : '')}, description=${author.spec.bio}, image=${author.spec.avatar ?: site.logo}, type='profile')}"></th:block>
+</th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="about-hero" style="padding-top:80px;">

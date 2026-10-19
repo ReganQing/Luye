@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layout :: html(head=null, content=~{::content})}">
+      th:replace="~{layout :: html(head=~{::head}, content=~{::content})}">
+<th:block th:fragment="head">
+  <th:block th:replace="~{modules/seo :: head(title=${site.title + (!#strings.isEmpty(site.subtitle) ? ' | ' + site.subtitle : '') + (posts.page > 1 ? ' - 第 ' + posts.page + ' 页' : '')}, path=${posts.page > 1 ? '/page/' + posts.page : '/'}, description=${site.seo.description}, image=${theme.config.hero.image ?: site.logo}, type='website')}"></th:block>
+</th:block>
 <th:block th:fragment="content">
 
   <!-- ===================== HERO ===================== -->

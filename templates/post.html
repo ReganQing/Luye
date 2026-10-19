@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layout :: html(head=null, content=~{::content})}">
+      th:replace="~{layout :: html(head=~{::head}, content=~{::content})}">
+<th:block th:fragment="head">
+  <th:block th:replace="~{modules/seo :: head(title=|${post.spec.title} - ${site.title}|, path=${post.status.permalink}, description=${post.status.excerpt}, image=${post.spec.cover ?: site.logo}, type='article')}"></th:block>
+</th:block>
 <th:block th:fragment="content">
   <div class="container">
 
@@ -24,7 +27,7 @@
       </div>
       <img class="post-cover"
            th:if="${post.spec.cover != null and post.spec.cover != ''}"
-           th:src="${post.spec.cover}" alt="">
+           th:src="${post.spec.cover}" th:alt="${post.spec.title}" decoding="async" fetchpriority="high">
     </header>
 
     <!-- ===================== 正文 ===================== -->

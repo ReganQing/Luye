@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layout :: html(head=null, content=~{::content})}">
+      th:replace="~{layout :: html(head=~{::head}, content=~{::content})}">
+<th:block th:fragment="head" th:with="archivePath=${#strings.substringBefore(archives.nextUrl, '/page/')}, archivePeriod=${#strings.substringAfter(archivePath, site.routes.archivesUri)}">
+  <th:block th:replace="~{modules/seo :: head(title=${'文章归档' + archivePeriod + (archives.page > 1 ? ' - 第 ' + archives.page + ' 页' : '') + ' - ' + site.title}, path=${archivePath + (archives.page > 1 ? '/page/' + archives.page : '')}, description=${site.seo.description}, image=${site.logo}, type='website')}"></th:block>
+</th:block>
 <th:block th:fragment="content">
   <div class="container">
     <header class="post-hero" style="padding-bottom:10px;">
