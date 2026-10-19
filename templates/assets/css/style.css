@@ -417,9 +417,10 @@ button{font-family:inherit;}
 .post-content blockquote p{margin:.4em 0;}
 .post-content code{
   font-family:var(--mono);font-size:.88em;
-  background:rgba(125,217,166,0.10);color:#A9E8C6;
   padding:2px 7px;border-radius:6px;
 }
+/* 绿色配色仅作未高亮内容的兜底，避免与插件的整套配色混用。 */
+.post-content code:not(.hljs){background:rgba(125,217,166,0.10);color:#A9E8C6;}
 .post-content pre{
   margin:1.6em 0;padding:22px 24px;overflow:auto;
   background:#0A1712;
@@ -427,7 +428,9 @@ button{font-family:inherit;}
   border-radius:14px;
   line-height:1.7;
 }
-.post-content pre code{background:none;color:#C7E3D2;padding:0;font-size:13.5px;}
+.post-content pre:has(>code.hljs){background:none;}
+.post-content pre code{padding:0;font-size:13.5px;}
+.post-content pre code:not(.hljs){background:none;color:#C7E3D2;}
 .post-content img{
   display:block;margin:1.8em auto;max-width:100%;
   border-radius:14px;border:1px solid var(--glass-border-soft);
