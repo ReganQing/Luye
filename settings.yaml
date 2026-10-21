@@ -27,6 +27,16 @@ spec:
           label: 个人主页链接
           value: ""
           help: 填写完整地址后，在导航和页脚显示个人主页入口。
+        - $formkit: checkbox
+          name: show_console
+          label: 显示控制台入口
+          value: true
+          help: 在导航栏和页脚显示「控制台」按钮，指向站点后台。关闭后不再对访客暴露后台地址。
+        - $formkit: text
+          name: console_path
+          label: 控制台路径
+          value: "/console"
+          help: 控制台入口指向的地址，默认 /console。若修改过站点后台路径（halo.console.* 相关配置），请同步修改此处。
     - group: seo
       label: SEO
       formSchema:
