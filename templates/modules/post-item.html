@@ -16,5 +16,8 @@
     <a class="tag-pill" th:each="tag : ${post.tags}"
        th:href="@{${tag.status.permalink}}"
        th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+    <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
+      <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
+    </th:block>
   </div>
 </article>

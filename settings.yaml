@@ -124,6 +124,11 @@ spec:
             - {label: "双列网格卡（推荐）", value: "grid"}
             - {label: "经典纵向列表", value: "list"}
           help: 置顶文章始终以大卡片展示，其余文章按此布局排列。
+        - $formkit: checkbox
+          name: show_visit
+          label: 显示文章浏览量
+          value: true
+          help: 在文章卡片（首页、归档、分类、标签、作者页）显示浏览次数，统计由 Halo 内置计数器提供。关闭后不显示。
     - group: author
       label: 首页作者卡片
       formSchema:

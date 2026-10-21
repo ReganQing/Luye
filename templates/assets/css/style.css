@@ -225,6 +225,18 @@ button{font-family:inherit;}
 }
 .tag-pill:hover{color:var(--green);border-color:var(--green-stroke);}
 
+/* 文章浏览量徽章 */
+.visit-badge{
+  display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 12px;border-radius:9999px;
+  background:var(--glass);border:1px solid var(--glass-border-soft);
+  color:var(--muted);font-size:12px;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.visit-badge .visit-icon{width:14px;height:14px;display:block;flex:0 0 auto;}
+.visit-badge .visit-num{min-width:1ch;}
+.featured-card .visit-badge{height:24px;padding:0 10px;font-size:11px;}
+.featured-card .visit-badge .visit-icon{width:13px;height:13px;}
+
 /* 置顶文章大卡片 */
 .post-featured{
   display:flex;flex-direction:column;gap:16px;
