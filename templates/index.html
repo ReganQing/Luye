@@ -82,6 +82,9 @@
             <a class="cat-pill" th:each="category : ${fpost.categories}"
                th:href="@{${category.status.permalink}}"
                th:text="${category.spec.displayName}">分类</a>
+            <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
+              <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${fpost})}"></th:block>
+            </th:block>
           </div>
           <a th:href="@{${fpost.status.permalink}}">
             <h3 class="post-title" th:text="${fpost.spec.title}">文章标题</h3>
@@ -131,6 +134,9 @@
               <a class="tag-pill" th:each="tag : ${post.tags}"
                  th:href="@{${tag.status.permalink}}"
                  th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
+                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
+              </th:block>
               <span class="post-date" style="margin-left:auto;"
                     th:if="${post.spec.publishTime != null}"
                     th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
@@ -166,6 +172,9 @@
               <a class="tag-pill" th:each="tag : ${post.tags}"
                  th:href="@{${tag.status.permalink}}"
                  th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
+                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
+              </th:block>
               <span class="post-date" style="margin-left:auto;"
                     th:if="${post.spec.publishTime != null}"
                     th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
@@ -181,6 +190,9 @@
               <a class="tag-pill" th:each="tag : ${post.tags}"
                  th:href="@{${tag.status.permalink}}"
                  th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
+                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
+              </th:block>
             </div>
             <a th:href="@{${post.status.permalink}}">
               <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
