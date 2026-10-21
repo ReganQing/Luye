@@ -33,6 +33,12 @@
        th:href="@{${theme.config.basic.search_url}}" aria-label="搜索" title="搜索">
       <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
     </a>
+    <a class="console-btn"
+       th:if="${theme.config.basic?.show_console == null or theme.config.basic?.show_console}"
+       th:href="@{${theme.config.basic?.console_path != null and theme.config.basic?.console_path != '' ? theme.config.basic.console_path : '/console'}}"
+       aria-label="控制台" title="控制台">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M6 8h4M6 12h6"/></svg>
+    </a>
     <a class="nav-cta" th:if="${theme.config.footer.email != null and theme.config.footer.email != ''}"
        th:href="'mailto:' + ${theme.config.footer.email}">联系我</a>
   </div>

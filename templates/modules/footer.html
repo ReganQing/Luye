@@ -18,6 +18,9 @@
          th:if="${theme.config.footer.github != null and theme.config.footer.github != ''}"
          th:href="${theme.config.footer.github}">GitHub</a>
       <a class="contact-pill" th:href="@{/archives}">文章归档</a>
+      <a class="contact-pill"
+         th:if="${theme.config.basic?.show_console == null or theme.config.basic?.show_console}"
+         th:href="@{${theme.config.basic?.console_path != null and theme.config.basic?.console_path != '' ? theme.config.basic.console_path : '/console'}}">控制台</a>
     </div>
     <div class="bottom-bar">
       <span>

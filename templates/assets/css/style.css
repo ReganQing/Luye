@@ -260,7 +260,8 @@ button{font-family:inherit;}
 .stat-sep{width:1px;height:28px;background:var(--glass-border);}
 
 /* 搜索按钮（导航栏） */
-.search-btn{
+.search-btn,
+.console-btn{
   display:flex;align-items:center;justify-content:center;
   width:38px;height:38px;border-radius:9999px;
   background:var(--glass);border:1px solid var(--glass-border);
@@ -268,8 +269,11 @@ button{font-family:inherit;}
   transition:color .3s ease,border-color .3s ease;
 }
 .search-btn:hover{color:var(--text);border-color:var(--green-stroke);}
-.search-btn:focus-visible{outline:2px solid var(--green-stroke-strong);outline-offset:2px;}
-.search-btn svg{width:16px;height:16px;display:block;}
+.console-btn:hover{color:var(--green);border-color:var(--green-stroke-strong);}
+.search-btn:focus-visible,
+.console-btn:focus-visible{outline:2px solid var(--green-stroke-strong);outline-offset:2px;}
+.search-btn svg,
+.console-btn svg{width:16px;height:16px;display:block;}
 
 /* ============================ 精选专题卡 ============================ */
 .featured-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
@@ -637,4 +641,16 @@ button{font-family:inherit;}
   .author-card{flex-direction:column;text-align:center;padding:28px;gap:24px;}
   .author-card .info{align-items:center;}
   .author-card .contact-row{justify-content:center;}
+  /* 窄屏导航空间有限：控制台入口在移动端隐藏，页脚仍保留「控制台」胶囊 */
+  .nav-right .console-btn{display:none;}
+}
+@media (max-width:480px){
+  .nav{gap:10px;padding:0 12px;}
+  .logo{gap:8px;min-width:0;flex:1 1 auto;}
+  .logo .leaf{width:20px;height:20px;flex:0 0 auto;}
+  .logo .brand{min-width:0;}
+  .logo .brand .name{font-size:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .nav-right{gap:10px;}
+  .weather-btn{width:28px;height:28px;}
+  .nav-toggle{flex:0 0 auto;}
 }
