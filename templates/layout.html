@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&amp;family=Noto+Sans+SC:wght@300;400;500&amp;family=Source+Serif+4:ital,wght@0,400;0,500;1,400;1,500&amp;display=swap" rel="stylesheet">
   </th:block>
   <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+  <!-- 脚本未加载或未执行时保持内容可见；main.js 初始化后再启用滚动显现。 -->
+  <style>html:not(.reveal-ready) .reveal{opacity:1;transform:none;transition:none;}</style>
   <style th:if="${theme.config.style.accent_color != null and theme.config.style.accent_color != ''}"
         th:inline="text">:root{--green:[[${theme.config.style.accent_color}]];}</style>
   <th:block th:if="${head != null}">

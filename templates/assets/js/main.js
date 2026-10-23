@@ -38,6 +38,8 @@
   }
 
   // ---------- 滚动显现（尊重 prefers-reduced-motion，CSS 侧亦有兜底） ----------
+  // 仅在脚本执行到这里后启用隐藏初始状态，脚本失败时内容仍保持可见。
+  document.documentElement.classList.add('reveal-ready');
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
