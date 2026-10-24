@@ -55,9 +55,9 @@
   </section>
 
   <!-- ===================== 精选专题（1.1.0 新增） ===================== -->
+  <th:block th:with="featuredPosts = ${postFinder.list(1, posts.total > 0 ? posts.total : 1).items.?[spec.cover != null and spec.cover != '']}">
   <section class="section" id="featured"
-           th:if="${(theme.config.featured?.enable == null or theme.config.featured?.enable) and !#lists.isEmpty(featuredPosts)}"
-           th:with="featuredPosts = ${postFinder.listAll().?[spec.cover != null and spec.cover != '']}">
+           th:if="${(theme.config.featured?.enable == null or theme.config.featured?.enable) and !#lists.isEmpty(featuredPosts)}">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow" th:text="${theme.config.featured?.eyebrow} ?: 'FEATURED · 精选专题'">FEATURED · 精选专题</p>
@@ -97,6 +97,7 @@
       </div>
     </div>
   </section>
+  </th:block>
 
   <!-- ===================== POSTS ===================== -->
   <section class="section" id="posts" th:styleappend="${theme.config.hero.enable} ? 'padding-top:20px;' : ''"
@@ -127,7 +128,7 @@
             <img class="cover" th:if="${post.spec.cover != null and post.spec.cover != ''}"
                  th:src="${post.spec.cover}" alt="">
             <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
-               th:text="${post.status.excerpt}">摘要</p>
+             th:text="${post.status.excerpt}">摘要</p>
             <div class="post-meta">
               <a class="cat-pill" th:each="category : ${post.categories}"
                  th:href="@{${category.status.permalink}}"
