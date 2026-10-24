@@ -128,7 +128,7 @@
             <img class="cover" th:if="${post.spec.cover != null and post.spec.cover != ''}"
                  th:src="${post.spec.cover}" alt="">
             <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
-             th:text="${post.status.excerpt}">摘要</p>
+               th:text="${post.status.excerpt}">摘要</p>
             <div class="post-meta">
               <a class="cat-pill" th:each="category : ${post.categories}"
                  th:href="@{${category.status.permalink}}"
