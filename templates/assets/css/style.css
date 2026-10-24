@@ -14,7 +14,7 @@
   --green:#7DD9A6;     /* accent（可被主题设置覆盖） */
   --amber:#E8B96E;     /* warm highlight（数字徽章 / 点缀） */
   --sub:#9DB5A8;       /* secondary text */
-  --muted:#6E8B7C;     /* muted / captions */
+  --muted:#8AA496;     /* muted / captions */
   --para:#B9CDBF;      /* paragraph body */
   --light:#C9D8CF;     /* nav links / traits / contacts */
   /* Glass surfaces */
@@ -28,7 +28,7 @@
   --green-tint:color-mix(in srgb, var(--green) 10%, transparent);
   --green-shadow:color-mix(in srgb, var(--green) 35%, transparent);
   /* Layout */
-  --container:1200px;
+  --container:1280px;
   --nav-h:76px;
   --radius-card:20px;
   --radius-item:18px;
@@ -210,7 +210,7 @@ button{font-family:inherit;}
 .post-title{font-family:var(--serif);font-weight:400;font-size:21px;color:var(--text);transition:color .3s ease;}
 .post-item:hover .post-title{color:var(--green);}
 .post-date{font-family:var(--serif-en);font-style:italic;font-size:14px;color:var(--green);flex:0 0 auto;}
-.post-excerpt{font-weight:300;font-size:15px;line-height:175%;color:var(--sub);
+.post-excerpt{font-weight:400;font-size:16px;line-height:175%;color:var(--para);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .post-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
 .cat-pill{
@@ -255,7 +255,7 @@ button{font-family:inherit;}
 .post-featured .post-title{font-size:clamp(22px,2.4vw,30px);line-height:140%;}
 .post-featured .post-excerpt{-webkit-line-clamp:3;}
 .post-featured .cover{
-  width:100%;aspect-ratio:2.8/1;object-fit:cover;border-radius:14px;
+  width:100%;aspect-ratio:3.4/1;max-height:340px;object-fit:cover;border-radius:14px;
   border:1px solid var(--glass-border-soft);
 }
 
@@ -310,7 +310,7 @@ button{font-family:inherit;}
 .featured-cover.fc-2{background:linear-gradient(120deg,#0A1712 0%,#14303F 100%);}
 .featured-cover.fc-3{background:linear-gradient(120deg,#0D1712 0%,#2E2A14 100%);}
 .featured-card .post-title{font-size:19px;line-height:145%;}
-.featured-card .post-excerpt{font-size:14px;}
+.featured-card .post-excerpt{font-size:15px;}
 .featured-meta{font-family:var(--serif-en);font-style:italic;font-size:13px;color:var(--muted);}
 
 /* ============================ 文章双列网格 ============================ */
@@ -644,6 +644,7 @@ button{font-family:inherit;}
   .post-item{padding:20px 22px;}
   .post-item-head{flex-direction:column;gap:6px;}
   .post-featured{padding:26px 24px 22px;}
+  .post-featured .cover{aspect-ratio:2/1;max-height:none;}
   .hero-img{aspect-ratio:2.4/1;border-radius:16px;}
   .footer{margin-top:64px;padding-top:60px;}
   .to-top{right:16px;bottom:16px;width:42px;height:42px;}
