@@ -55,9 +55,9 @@
   </section>
 
   <!-- ===================== 精选专题（1.1.0 新增） ===================== -->
+  <th:block th:with="featuredPosts = ${postFinder.list(1, posts.total > 0 ? posts.total : 1).items.?[spec.cover != null and spec.cover != '']}">
   <section class="section" id="featured"
-           th:if="${theme.config.featured?.enable == null or theme.config.featured?.enable}"
-           th:with="featuredPosts = ${postFinder.list(1, 20).items.?[spec.cover != null and spec.cover != '']}">
+           th:if="${(theme.config.featured?.enable == null or theme.config.featured?.enable) and !#lists.isEmpty(featuredPosts)}">
     <div class="container">
       <div class="section-head reveal">
         <p class="eyebrow" th:text="${theme.config.featured?.eyebrow} ?: 'FEATURED · 精选专题'">FEATURED · 精选专题</p>
@@ -66,8 +66,8 @@
            th:text="${theme.config.featured.desc}">描述文案</p>
       </div>
 
-      <!-- 在最近 20 篇范围内取前 3 篇带封面的文章，尽量凑满三张精选卡 -->
-      <div class="featured-grid" th:if="${featuredPosts != null and !#lists.isEmpty(featuredPosts)}">
+      <!-- 从全部已发布文章中取前 3 篇带封面的文章；无候选时整个 section 不渲染 -->
+      <div class="featured-grid">
         <article class="featured-card reveal"
                  th:each="fpost, st : ${featuredPosts}"
                  th:if="${st.index < 3}">
@@ -96,6 +96,7 @@
       </div>
     </div>
   </section>
+  </th:block>
 
   <!-- ===================== POSTS ===================== -->
   <section class="section" id="posts" th:styleappend="${theme.config.hero.enable} ? 'padding-top:20px;' : ''"
@@ -113,12 +114,12 @@
       <!-- 经典纵向列表布局 -->
       <div class="post-list" th:if="${postLayout == 'list'}">
         <th:block th:each="post, iterStat : ${posts.items}">
-          <!-- 置顶且有封面：大卡片（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
-          <th:block th:if="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+          <!-- 置顶文章：大卡片，封面独立可选（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
+          <th:block th:if="${post.spec.pinned}">
             <th:block th:replace="~{modules/post-featured :: post-featured}"></th:block>
           </th:block>
           <!-- 普通列表项 -->
-          <th:block th:unless="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+          <th:block th:unless="${post.spec.pinned}">
             <th:block th:replace="~{modules/post-item :: post-item}"></th:block>
           </th:block>
         </th:block>
@@ -127,13 +128,13 @@
       <!-- 双列网格布局（1.1.0 新增，默认） -->
       <div class="post-grid" th:if="${postLayout == 'grid'}">
         <th:block th:each="post, iterStat : ${posts.items}">
-          <!-- 置顶且有封面：通栏大卡片（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
-          <th:block th:if="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+          <!-- 置顶文章：通栏大卡片，封面独立可选（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
+          <th:block th:if="${post.spec.pinned}">
             <th:block th:replace="~{modules/post-featured :: post-featured}"></th:block>
           </th:block>
           <!-- 普通文章：网格卡 -->
           <article class="post-card reveal"
-                   th:unless="${post.spec.pinned and post.spec.cover != null and post.spec.cover != ''}">
+                   th:unless="${post.spec.pinned}">
             <div class="post-meta">
               <a class="cat-pill" th:each="category : ${post.categories}"
                  th:href="@{${category.status.permalink}}"

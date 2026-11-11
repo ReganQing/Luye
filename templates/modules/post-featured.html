@@ -7,7 +7,8 @@
   <a th:href="@{${post.status.permalink}}">
     <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
   </a>
-  <img class="cover" th:src="${post.spec.cover}" alt="" loading="lazy" decoding="async">
+  <img class="cover" th:if="${post.spec.cover != null and post.spec.cover != ''}"
+       th:src="${post.spec.cover}" alt="" loading="lazy" decoding="async">
   <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
      th:text="${post.status.excerpt}">摘要</p>
   <div class="post-meta">
