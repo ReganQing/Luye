@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1F17">
   <title th:if="${head == null}" th:text="${site.title}">站点标题</title>
   <th:block th:if="${theme.config.style.webfont == null or theme.config.style.webfont}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,6 +11,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500&amp;family=Noto+Sans+SC:wght@300;400;500&amp;family=Source+Serif+4:ital,wght@0,400;0,500;1,400;1,500&amp;display=swap" rel="stylesheet">
   </th:block>
   <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+  <!-- 滚动显现的渐进增强：有 JS 才隐藏 .reveal（html.js）；无 JS 时内容默认可见。
+       若 main.js 加载失败/被拦截，load 后兜底强制显示，避免整页空白。 -->
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.className += (r.className ? ' ' : '') + 'js';
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          if (!window.__luyeReveal) {
+            var els = document.querySelectorAll('.reveal:not(.in)');
+            for (var i = 0; i < els.length; i++) { els[i].classList.add('in'); }
+          }
+        }, 1500);
+      });
+    })();
+  </script>
   <style th:if="${theme.config.style.accent_color != null and theme.config.style.accent_color != ''}"
         th:inline="text">:root{--green:[[${theme.config.style.accent_color}]];}</style>
   <th:block th:if="${head != null}">

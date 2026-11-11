@@ -40,7 +40,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 12px);scrollbar-color:var(--green-stroke-strong) var(--bg-bottom);}
 body{
   background:linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 40%,var(--bg-bottom) 100%) fixed,var(--bg-bottom);
   color:var(--text);
@@ -59,12 +59,23 @@ button{font-family:inherit;}
 /* ---------- 滚动条 ---------- */
 ::-webkit-scrollbar{width:10px;height:10px;}
 ::-webkit-scrollbar-track{background:var(--bg-bottom);}
-::-webkit-scrollbar-thumb{background:rgba(125,217,166,0.22);border-radius:9999px;border:2px solid var(--bg-bottom);}
-::-webkit-scrollbar-thumb:hover{background:rgba(125,217,166,0.4);}
+::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--green) 22%,transparent);border-radius:9999px;border:2px solid var(--bg-bottom);}
+::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb,var(--green) 40%,transparent);}
 
 /* ---------- 容器 ---------- */
 .container{width:100%;max-width:var(--container);margin:0 auto;padding:0 24px;}
 .content{position:relative;z-index:1;}
+
+/* ---------- 主题化单色图标（SVG 作遮罩，填充色跟随强调色） ---------- */
+.svg-icon{
+  display:block;flex:0 0 auto;
+  background-color:var(--green);
+  -webkit-mask:var(--icon) center/contain no-repeat;
+  mask:var(--icon) center/contain no-repeat;
+}
+/* 遮罩路径相对样式表解析，与主题资产目录一致 */
+.icon-leaf{--icon:url(../svg/leaf.svg);}
+.icon-mountain{--icon:url(../svg/mountain.svg);}
 
 /* ---------- 天气背景画布 ---------- */
 #weather-canvas{
@@ -75,7 +86,7 @@ button{font-family:inherit;}
 /* ---------- 装饰雾光 ---------- */
 .fog{position:fixed;z-index:0;pointer-events:none;filter:blur(20px);}
 .fog-1{left:-160px;top:-40px;width:760px;height:760px;
-  background:radial-gradient(circle,rgba(125,217,166,0.30) 0%,rgba(125,217,166,0) 70%);}
+  background:radial-gradient(circle,color-mix(in srgb,var(--green) 30%,transparent) 0%,color-mix(in srgb,var(--green) 0%,transparent) 70%);}
 .fog-2{right:-180px;top:200px;width:680px;height:680px;
   background:radial-gradient(circle,rgba(51,107,77,0.42) 0%,rgba(51,107,77,0) 70%);}
 .fog-3{left:50%;bottom:-200px;margin-left:-470px;width:940px;height:620px;
@@ -349,7 +360,7 @@ button{font-family:inherit;}
   box-shadow:0 16px 40px rgba(0,0,0,0.25);
 }
 .author-card .avatar-badge img.photo{width:100%;height:100%;object-fit:cover;}
-.author-card .avatar-badge img.badge{width:64px;height:64px;display:block;}
+.author-card .avatar-badge .badge{width:64px;height:64px;display:block;}
 .author-card .info{display:flex;flex-direction:column;align-items:flex-start;gap:14px;min-width:0;}
 .author-card .nm{font-family:var(--serif);font-weight:500;font-size:28px;line-height:1.2;color:var(--text);}
 .author-card .bio{font-weight:300;font-size:15px;line-height:180%;color:var(--sub);}
@@ -436,7 +447,7 @@ button{font-family:inherit;}
   padding:2px 7px;border-radius:6px;
 }
 /* 绿色配色仅作未高亮内容的兜底，避免与插件的整套配色混用。 */
-.post-content code:not(.hljs){background:rgba(125,217,166,0.10);color:#A9E8C6;}
+.post-content code:not(.hljs){background:color-mix(in srgb,var(--green) 10%,transparent);color:color-mix(in srgb,var(--green) 65%,#fff);}
 .post-content pre{
   margin:1.6em 0;padding:22px 24px;overflow:auto;
   background:#0A1712;
@@ -446,7 +457,7 @@ button{font-family:inherit;}
 }
 .post-content pre:has(>code.hljs){background:none;}
 .post-content pre code{padding:0;font-size:13.5px;}
-.post-content pre code:not(.hljs){background:none;color:#C7E3D2;}
+.post-content pre code:not(.hljs){background:none;color:color-mix(in srgb,var(--green) 45%,var(--text));}
 .post-content img{
   display:block;margin:1.8em auto;max-width:100%;
   border-radius:14px;border:1px solid var(--glass-border-soft);
@@ -489,7 +500,7 @@ button{font-family:inherit;}
   display:flex;align-items:center;justify-content:center;
   background:var(--glass);border:1px solid var(--green-stroke);
 }
-.author-bar .avatar-badge img{width:24px;height:24px;}
+.author-bar .avatar-badge .svg-icon{width:24px;height:24px;}
 .author-bar .info{display:flex;flex-direction:column;gap:4px;}
 .author-bar .nm{font-family:var(--serif);font-size:16px;color:var(--text);font-weight:400;}
 .author-bar .bio{font-size:13px;color:var(--muted);}
@@ -515,7 +526,7 @@ button{font-family:inherit;}
   box-shadow:0 16px 40px rgba(0,0,0,0.25);
   overflow:hidden;
 }
-.portrait img.badge{width:64px;height:64px;display:block;}
+.portrait .badge{width:64px;height:64px;display:block;}
 .portrait img.photo{width:100%;height:100%;object-fit:cover;}
 .portrait .cap{font-weight:300;font-size:12px;color:var(--sub);padding:0 16px;text-align:center;}
 .about-content{max-width:760px;margin:48px auto 0;}
@@ -606,10 +617,11 @@ button{font-family:inherit;}
 .comment-panel .panel-title::before{content:"";width:6px;height:20px;border-radius:4px;background:var(--green);}
 
 /* ============================ 滚动显现 ============================ */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1);}
+/* 默认可见（无 JS 兜底）；仅当 html.js 存在时隐藏，交由 main.js 滚动显现 */
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1);}
 .reveal.in{opacity:1;transform:none;}
 @media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none;}
+  .reveal,.js .reveal{opacity:1;transform:none;transition:none;}
   html{scroll-behavior:auto;}
 }
 

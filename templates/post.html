@@ -46,7 +46,7 @@
         <img class="avatar" th:if="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}"
              th:src="${theme.config.basic.avatar}" alt="头像">
         <span class="avatar-badge" th:unless="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}">
-          <img th:src="@{/assets/svg/mountain.svg}" alt="">
+          <span class="svg-icon icon-mountain" aria-hidden="true"></span>
         </span>
         <div class="info">
           <span class="nm" th:text="${post.owner.displayName}">作者</span>

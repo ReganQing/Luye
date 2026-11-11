@@ -16,7 +16,7 @@
              th:if="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}"
              th:src="${theme.config.basic.avatar}" alt="头像">
         <th:block th:unless="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}">
-          <img class="badge" th:src="@{/assets/svg/mountain.svg}" alt="">
+          <span class="badge svg-icon icon-mountain" aria-hidden="true"></span>
           <span class="cap" th:text="|${site.title} · ${theme.config.basic.brand_sub}|">Ron567 · SOFTWARE &amp; AI</span>
         </th:block>
       </div>

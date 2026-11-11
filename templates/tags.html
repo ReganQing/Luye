@@ -20,7 +20,7 @@
            th:href="@{${tag.status.permalink}}">
           <div class="card-top">
             <span class="idx">#</span>
-            <img class="leaf" th:src="@{/assets/svg/leaf-3.svg}" alt="">
+            <span class="leaf svg-icon icon-leaf" aria-hidden="true"></span>
           </div>
           <h3 class="card-title" th:text="${tag.spec.displayName}">标签名</h3>
           <span class="card-tag" th:text="|${tag.postCount ?: 0} 篇文章|">0 篇文章</span>

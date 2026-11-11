@@ -13,7 +13,7 @@
         <img class="photo" th:if="${author.spec.avatar != null and author.spec.avatar != ''}"
              th:src="${author.spec.avatar}" alt="头像">
         <th:block th:unless="${author.spec.avatar != null and author.spec.avatar != ''}">
-          <img class="badge" th:src="@{/assets/svg/mountain.svg}" alt="">
+          <span class="badge svg-icon icon-mountain" aria-hidden="true"></span>
           <span class="cap" th:text="${author.spec.displayName}">作者名</span>
         </th:block>
       </div>

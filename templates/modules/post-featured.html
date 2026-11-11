@@ -1,0 +1,25 @@
+<!-- 置顶文章大卡片：依赖变量 post（首页 list / grid 布局共用，消除重复 markup） -->
+<article class="post-featured reveal" xmlns:th="https://www.thymeleaf.org" th:fragment="post-featured">
+  <div class="card-top">
+    <span class="idx">置顶</span>
+    <span class="leaf svg-icon icon-leaf" aria-hidden="true"></span>
+  </div>
+  <a th:href="@{${post.status.permalink}}">
+    <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
+  </a>
+  <img class="cover" th:src="${post.spec.cover}" alt="" loading="lazy" decoding="async">
+  <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
+     th:text="${post.status.excerpt}">摘要</p>
+  <div class="post-meta">
+    <a class="cat-pill" th:each="category : ${post.categories}"
+       th:href="@{${category.status.permalink}}"
+       th:text="${category.spec.displayName}">分类</a>
+    <a class="tag-pill" th:each="tag : ${post.tags}"
+       th:href="@{${tag.status.permalink}}"
+       th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
+    <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
+    <span class="post-date" style="margin-left:auto;"
+          th:if="${post.spec.publishTime != null}"
+          th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
+  </div>
+</article>
