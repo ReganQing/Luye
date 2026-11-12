@@ -1,6 +1,6 @@
 <nav class="nav" xmlns:th="https://www.thymeleaf.org" th:fragment="header" th:with="menu = ${menuFinder.getPrimary()}">
   <a class="logo" th:href="@{/}" aria-label="首页">
-    <img class="leaf" th:src="@{/assets/svg/leaf.svg}" alt="">
+    <span class="leaf svg-icon icon-leaf" aria-hidden="true"></span>
     <span class="brand">
       <span class="name" th:text="${site.title}">站点名称</span>
       <span class="sub" th:if="${theme.config.basic.brand_sub != null and theme.config.basic.brand_sub != ''}"
@@ -43,7 +43,7 @@
        th:href="'mailto:' + ${theme.config.footer.email}">联系我</a>
   </div>
 
-  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="打开菜单">
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="打开菜单" aria-controls="nav-center" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>

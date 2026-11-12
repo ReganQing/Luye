@@ -6,17 +6,29 @@
 
   // ---------- 移动端导航 ----------
   var toggle = document.getElementById('nav-toggle');
+  function setNav(open) {
+    document.body.classList.toggle('nav-open', open);
+    if (toggle) {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    }
+  }
   if (toggle) {
     toggle.addEventListener('click', function () {
-      document.body.classList.toggle('nav-open');
+      setNav(!document.body.classList.contains('nav-open'));
     });
     // 点击菜单项后收起
     var links = document.querySelectorAll('.nav-center a');
     for (var i = 0; i < links.length; i++) {
-      links[i].addEventListener('click', function () {
-        document.body.classList.remove('nav-open');
-      });
+      links[i].addEventListener('click', function () { setNav(false); });
     }
+    // Esc 关闭并把焦点交还按钮
+    document.addEventListener('keydown', function (e) {
+      if ((e.key === 'Escape' || e.key === 'Esc') && document.body.classList.contains('nav-open')) {
+        setNav(false);
+        toggle.focus();
+      }
+    });
   }
 
   // ---------- 返回顶部 ----------
@@ -33,7 +45,8 @@
       }
     }, { passive: true });
     toTop.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     });
   }
 
@@ -57,11 +70,10 @@
     document.querySelectorAll('.nav-center a').forEach(function (a) {
       var href = a.getAttribute('href') || '';
       if (!href || href.charAt(0) === '#') { return; }
-      var ap;
-      try {
-        ap = new URL(href, window.location.origin).pathname.replace(/\/+$/, '') || '/';
-      } catch (e) { return; }
-      if (new URL(href, window.location.origin).origin === window.location.origin && ap === path) {
+      var url;
+      try { url = new URL(href, window.location.origin); } catch (e) { return; }
+      var ap = url.pathname.replace(/\/+$/, '') || '/';
+      if (url.origin === window.location.origin && ap === path) {
         a.classList.add('active');
       }
     });

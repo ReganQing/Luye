@@ -1,8 +1,9 @@
 <!-- 文章浏览量徽章：参数 post -->
 <!-- Halo 内置 Counter 统计，post.stats.visit 为 null 表示该文章暂无统计记录 -->
+<!-- 「显示文章浏览量」开关内置于此，调用方无需再各自包裹 th:if -->
 <span class="visit-badge" xmlns:th="https://www.thymeleaf.org"
       th:fragment="visit-badge(post)"
-      th:if="${post != null and post.stats != null and post.stats.visit != null}"
+      th:if="${(theme.config.posts?.show_visit == null or theme.config.posts?.show_visit) and post != null and post.stats != null and post.stats.visit != null}"
       th:title="|${post.stats.visit} 次阅读|">
   <svg class="visit-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24"
        fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

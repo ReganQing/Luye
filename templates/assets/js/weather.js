@@ -23,6 +23,7 @@
   var height = 0;
   var sunSprite = null;
   var shaftSprite = null;
+  var resizeTimer = null;
   var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   var reducedMotion = !!(motionQuery && motionQuery.matches);
 
@@ -51,19 +52,30 @@
     document.body.insertBefore(canvas, document.body.firstChild || null);
     ctx = canvas.getContext('2d');
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', onResize);
+  }
+
+  // resize 防抖：拖拽窗口 / 移动端地址栏收展会高频触发 resize，避免反复重建粒子
+  function onResize() {
+    if (resizeTimer) { clearTimeout(resizeTimer); }
+    resizeTimer = setTimeout(function () {
+      resizeTimer = null;
+      resizeCanvas();
+    }, 150);
   }
 
   function resizeCanvas() {
     if (!canvas) { return; }
     var dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+    var prevWidth = width;
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     if (mode !== 'off') {
-      buildParticles(mode);
+      // 仅宽度变化（或首次）才重建粒子；移动端地址栏只改高度，保留现有粒子避免闪烁
+      if (particles.length === 0 || width !== prevWidth) { buildParticles(mode); }
       if (reducedMotion) { drawFrame(); }
     }
   }

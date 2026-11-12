@@ -51,7 +51,7 @@
     <p class="scroll-hint">向下，进入我的世界</p>
     <img class="hero-img"
          th:if="${theme.config.hero.image != null and theme.config.hero.image != ''}"
-         th:src="${theme.config.hero.image}" alt="横幅意象图">
+         th:src="${theme.config.hero.image}" alt="横幅意象图" decoding="async">
   </section>
 
   <!-- ===================== 精选专题（1.1.0 新增） ===================== -->
@@ -66,6 +66,7 @@
            th:text="${theme.config.featured.desc}">描述文案</p>
       </div>
 
+      <!-- 从全部已发布文章中取前 3 篇带封面的文章；无候选时整个 section 不渲染 -->
       <div class="featured-grid">
         <article class="featured-card reveal"
                  th:each="fpost, st : ${featuredPosts}"
@@ -75,16 +76,14 @@
             <!-- 封面图：优先渲染文章真实封面，加载失败时由下方渐变底兜底 -->
             <img class="cover-img"
                  th:if="${fpost.spec.cover != null and fpost.spec.cover != ''}"
-                 th:src="${fpost.spec.cover}" alt="">
-            <img class="cover-leaf" th:src="@{/assets/svg/leaf.svg}" alt="">
+                 th:src="${fpost.spec.cover}" alt="" loading="lazy" decoding="async">
+            <span class="cover-leaf svg-icon icon-leaf" aria-hidden="true"></span>
           </a>
           <div class="post-meta">
             <a class="cat-pill" th:each="category : ${fpost.categories}"
                th:href="@{${category.status.permalink}}"
                th:text="${category.spec.displayName}">分类</a>
-            <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
-              <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${fpost})}"></th:block>
-            </th:block>
+            <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${fpost})}"></th:block>
           </div>
           <a th:href="@{${fpost.status.permalink}}">
             <h3 class="post-title" th:text="${fpost.spec.title}">文章标题</h3>
@@ -115,35 +114,10 @@
       <!-- 经典纵向列表布局 -->
       <div class="post-list" th:if="${postLayout == 'list'}">
         <th:block th:each="post, iterStat : ${posts.items}">
-          <!-- 置顶文章：大卡片，封面独立可选 -->
-          <article class="post-featured reveal"
-                   th:if="${post.spec.pinned}">
-            <div class="card-top">
-              <span class="idx">置顶</span>
-              <img class="leaf" th:src="@{/assets/svg/leaf-2.svg}" alt="">
-            </div>
-            <a th:href="@{${post.status.permalink}}">
-              <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
-            </a>
-            <img class="cover" th:if="${post.spec.cover != null and post.spec.cover != ''}"
-                 th:src="${post.spec.cover}" alt="">
-            <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
-               th:text="${post.status.excerpt}">摘要</p>
-            <div class="post-meta">
-              <a class="cat-pill" th:each="category : ${post.categories}"
-                 th:href="@{${category.status.permalink}}"
-                 th:text="${category.spec.displayName}">分类</a>
-              <a class="tag-pill" th:each="tag : ${post.tags}"
-                 th:href="@{${tag.status.permalink}}"
-                 th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
-              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
-                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
-              </th:block>
-              <span class="post-date" style="margin-left:auto;"
-                    th:if="${post.spec.publishTime != null}"
-                    th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
-            </div>
-          </article>
+          <!-- 置顶文章：大卡片，封面独立可选（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
+          <th:block th:if="${post.spec.pinned}">
+            <th:block th:replace="~{modules/post-featured :: post-featured}"></th:block>
+          </th:block>
           <!-- 普通列表项 -->
           <th:block th:unless="${post.spec.pinned}">
             <th:block th:replace="~{modules/post-item :: post-item}"></th:block>
@@ -154,35 +128,10 @@
       <!-- 双列网格布局（1.1.0 新增，默认） -->
       <div class="post-grid" th:if="${postLayout == 'grid'}">
         <th:block th:each="post, iterStat : ${posts.items}">
-          <!-- 置顶文章：通栏大卡片，封面独立可选 -->
-          <article class="post-featured reveal"
-                   th:if="${post.spec.pinned}">
-            <div class="card-top">
-              <span class="idx">置顶</span>
-              <img class="leaf" th:src="@{/assets/svg/leaf-2.svg}" alt="">
-            </div>
-            <a th:href="@{${post.status.permalink}}">
-              <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
-            </a>
-            <img class="cover" th:if="${post.spec.cover != null and post.spec.cover != ''}"
-                 th:src="${post.spec.cover}" alt="">
-            <p class="post-excerpt" th:if="${post.status.excerpt != null and post.status.excerpt != ''}"
-               th:text="${post.status.excerpt}">摘要</p>
-            <div class="post-meta">
-              <a class="cat-pill" th:each="category : ${post.categories}"
-                 th:href="@{${category.status.permalink}}"
-                 th:text="${category.spec.displayName}">分类</a>
-              <a class="tag-pill" th:each="tag : ${post.tags}"
-                 th:href="@{${tag.status.permalink}}"
-                 th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
-              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
-                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
-              </th:block>
-              <span class="post-date" style="margin-left:auto;"
-                    th:if="${post.spec.publishTime != null}"
-                    th:text="${#dates.format(new java.util.Date(post.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 1, 2026</span>
-            </div>
-          </article>
+          <!-- 置顶文章：通栏大卡片，封面独立可选（th:replace 优先级高于 th:if，守卫必须放外层 block） -->
+          <th:block th:if="${post.spec.pinned}">
+            <th:block th:replace="~{modules/post-featured :: post-featured}"></th:block>
+          </th:block>
           <!-- 普通文章：网格卡 -->
           <article class="post-card reveal"
                    th:unless="${post.spec.pinned}">
@@ -193,9 +142,7 @@
               <a class="tag-pill" th:each="tag : ${post.tags}"
                  th:href="@{${tag.status.permalink}}"
                  th:text="'# ' + ${tag.spec.displayName}"># 标签</a>
-              <th:block th:if="${theme.config.posts?.show_visit == null or theme.config.posts?.show_visit}">
-                <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
-              </th:block>
+              <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${post})}"></th:block>
             </div>
             <a th:href="@{${post.status.permalink}}">
               <h3 class="post-title" th:text="${post.spec.title}">文章标题</h3>
@@ -224,10 +171,10 @@
         <div class="avatar-badge">
           <img class="photo"
                th:if="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
-               th:src="${theme.config.basic.avatar}" alt="作者头像">
-          <img class="badge"
-               th:unless="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
-               th:src="@{/assets/svg/leaf.svg}" alt="">
+               th:src="${theme.config.basic.avatar}" alt="作者头像" loading="lazy" decoding="async">
+          <span class="badge svg-icon icon-leaf"
+                th:unless="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
+                aria-hidden="true"></span>
         </div>
         <div class="info">
           <p class="eyebrow" th:text="${theme.config.author?.eyebrow} ?: 'ABOUT ME · 关于我'">ABOUT ME · 关于我</p>
