@@ -30,7 +30,8 @@
            th:src="${post.spec.cover}" th:alt="${post.spec.title}" decoding="async" fetchpriority="high">
     </header>
 
-    <!-- ===================== 正文 ===================== -->
+    <!-- ===================== 正文 + 大纲 ===================== -->
+    <div class="post-layout">
     <article class="post-panel">
       <div class="post-content" th:utext="${post.content.content}">正文内容</div>
 
@@ -71,6 +72,27 @@
       </div>
     </article>
 
+    <!-- 大纲导航：宽屏 sticky 侧栏 / 窄屏浮动按钮 + 抽屉；由 toc.js 依正文标题构建，
+         标题不足两个或无 JS 时整块不显示（html.toc-ready 门控） -->
+    <aside class="toc-col" id="toc-col"
+           th:if="${theme.config.post?.toc == null or theme.config.post?.toc}">
+      <button type="button" class="toc-fab" id="toc-fab"
+              aria-expanded="false" aria-controls="toc-panel" aria-label="打开文章大纲">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>
+      </button>
+      <div class="toc-backdrop" id="toc-backdrop"></div>
+      <nav class="toc" id="toc-panel" aria-label="文章大纲">
+        <div class="toc-head">
+          <p class="toc-title">大纲</p>
+          <button type="button" class="toc-close" id="toc-close" aria-label="关闭文章大纲">
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12"/><path d="M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <ol class="toc-list" id="toc-list"></ol>
+      </nav>
+    </aside>
+    </div>
+
     <!-- ===================== 评论 ===================== -->
     <section class="comment-panel" th:if="${haloCommentEnabled}">
       <h2 class="panel-title">评论</h2>
@@ -78,5 +100,6 @@
     </section>
 
   </div>
+  <script th:src="@{/assets/js/toc.js}" defer></script>
 </th:block>
 </html>

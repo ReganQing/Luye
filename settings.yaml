@@ -129,6 +129,14 @@ spec:
           label: 显示文章浏览量
           value: true
           help: 在文章卡片（首页、归档、分类、标签、作者页）显示浏览次数，统计由 Halo 内置计数器提供。关闭后不显示。
+    - group: post
+      label: 文章页
+      formSchema:
+        - $formkit: checkbox
+          name: toc
+          label: 显示文章大纲
+          value: true
+          help: 在文章页显示由正文二/三级标题生成的大纲导航：宽屏为右侧固定侧栏，窄屏为浮动按钮加抽屉。正文标题不足两个时自动隐藏。
     - group: author
       label: 首页作者卡片
       formSchema:
