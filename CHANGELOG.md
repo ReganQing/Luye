@@ -8,7 +8,7 @@
 
 ## 1.3.5
 
-在 1.3.3 基础上合并落地一轮性能、无障碍与可维护性优化。修复锚点跳转（如首页「看看我的文章」）落点被固定导航遮挡的问题，`scroll-padding-top` 按导航高度 + 12px 偏移。无障碍：汉堡菜单动态切换 `aria-expanded` / `aria-controls` / `aria-label`，Esc 关闭并归还焦点；返回顶部尊重系统「减少动态」偏好；分页禁用态改为不可聚焦的 `<span>`（不再进入 Tab 序），可用态补 `rel="prev/next"`，移除 `javascript:` 伪链接。性能：文章封面、作者头像与 hero 图统一 `loading="lazy" decoding="async"`；天气画布 resize 防抖 150ms、仅宽度变化时重建粒子。视觉一致性：单色 SVG 图标改用 CSS mask 着色，行内代码、雾面渐变与滚动条（含 Firefox `scrollbar-color`）全部由强调色 `--green` 派生，主题设置改强调色后全站同步生效；补 `theme-color` meta。可维护性：置顶大卡抽取为 `modules/post-featured.html` 片段供列表/网格两分支共用（守卫置于外层 `th:block`，规避 `th:replace` 优先级陷阱），并沿用 1.3.2 的「置顶不要求封面、封面独立可选」语义；`visit-badge` 片段自门控「显示文章浏览量」开关，调用方不再重复判断；删除四个冗余叶子 SVG。无 JS 降级沿用 1.3.2 引入的 `reveal-ready` 机制。已在 Halo 2.26.1 真机环境验证：升级安装保留既有设置，11 条路径全部返回 200，grid / list 双布局与无封面置顶渲染正确，禁用脚本后内容完整可见，锚点落点、分页、菜单无障碍与强调色联动复核正确，1440 / 390 / 320px 三档视口均无横向溢出。
+在 1.3.3 基础上合并落地一轮性能、无障碍与可维护性优化。修复锚点跳转（如首页「看看我的文章」）落点被固定导航遮挡的问题，`scroll-padding-top` 按导航高度 + 12px 偏移。无障碍：汉堡菜单动态切换 `aria-expanded` / `aria-controls` / `aria-label`，Esc 关闭并归还焦点；返回顶部尊重系统「减少动态」偏好；分页禁用态改为不可聚焦的 `<span>`（不再进入 Tab 序），可用态补 `rel="prev/next"`，移除 `javascript:` 伪链接。性能：文章封面、作者头像与 hero 图统一 `loading="lazy" decoding="async"`；天气画布 resize 防抖 150ms、仅宽度变化时重建粒子。视觉一致性：单色 SVG 图标改用 CSS mask 着色，行内代码、雾面渐变与滚动条（含 Firefox `scrollbar-color`）全部由强调色 `--green` 派生，主题设置改强调色后全站同步生效；补 `theme-color` meta。可维护性：置顶大卡抽取为 `modules/post-featured.html` 片段供列表/网格两分支共用（守卫置于外层 `th:block`，规避 `th:replace` 优先级陷阱），并沿用 1.3.2 的「置顶不要求封面、封面独立可选」语义；`visit-badge` 片段自门控「显示文章浏览量」开关，调用方不再重复判断；删除四个冗余叶子 SVG。无 JS 降级沿用 1.3.2 引入的 `reveal-ready` 机制。已在 Halo 2.26.1 真机环境验证：升级安装保留既有设置，首页、归档、分类、标签、文章、独立页、作者页全路径返回 200 且 404 按预期，多页数据下分页第二页正常，grid / list 双布局与无封面置顶渲染正确，禁用脚本后内容完整可见，锚点落点、分页、菜单无障碍与强调色联动复核正确，1440 / 390 / 320px 三档视口均无横向溢出。
 
 ## 1.3.3
 
