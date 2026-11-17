@@ -30,6 +30,8 @@
   /* Layout */
   --container:1280px;
   --nav-h:76px;
+  /* 文章玻璃面板距 hero 的上边距；大纲侧栏复用此值保持两栏顶线对齐 */
+  --post-panel-gap:40px;
   --radius-card:20px;
   --radius-item:18px;
   /* Fonts */
@@ -402,7 +404,9 @@ button{font-family:inherit;}
   border-radius:24px;border:1px solid var(--glass-border);object-fit:cover;
 }
 .post-panel{
-  margin:40px auto 0;padding:clamp(28px,5vw,64px);
+  margin:var(--post-panel-gap) auto 0;padding:clamp(28px,5vw,64px);
+  /* 水平 margin:auto 会让 grid item 按内容宽度收缩；长代码块等不可断行内容可能撑破窄屏，收回容器宽度 */
+  max-width:100%;
   background:var(--glass-2);
   border:1px solid var(--glass-border-soft);
   border-radius:24px;
@@ -646,6 +650,9 @@ html.toc-ready .toc-col{display:block;}
 @media (min-width:1200px){
   /* 仅在大纲真正构建后启用双栏，避免无 JS / 少标题 / 关闭开关时右侧留空列 */
   html.toc-ready .post-layout{grid-template-columns:minmax(0,1fr) 264px;}
+  /* 正文面板有 --post-panel-gap 上边距，侧栏补齐同值，两个玻璃框顶线才齐平；
+     窄屏抽屉为 fixed 定位，不受此规则影响 */
+  html.toc-ready .toc-col{margin-top:var(--post-panel-gap);}
 }
 @media (max-width:1199px){
   .toc-fab{
