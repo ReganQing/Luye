@@ -41,6 +41,23 @@
   --mono:"JetBrains Mono","SFMono-Regular","Consolas",monospace;
 }
 
+/* Halo 官方搜索组件配色：提高选择器优先级，覆盖插件的默认深色变量。 */
+html[data-color-scheme='dark']{
+  --halo-search-widget-base-font-size:14px;
+  --halo-search-widget-base-font-family:var(--sans);
+  --halo-search-widget-base-rounded:var(--radius-card);
+  --halo-search-widget-base-bg-color:var(--bg-bottom);
+  --halo-search-widget-primary-color:var(--green);
+  --halo-search-widget-muted-color:var(--sub);
+  --halo-search-widget-content-color:var(--text);
+  --halo-search-widget-modal-bg-color:var(--bg-top);
+  --halo-search-widget-modal-layer-color:rgba(3,10,7,.72);
+  --halo-search-widget-hit-bg-color:var(--glass);
+  --halo-search-widget-divider-color:var(--glass-border);
+  --halo-search-widget-kbd-border-color:var(--glass-border);
+  --halo-search-widget-kbd-shadow:0 2px 0 rgba(255,255,255,.10);
+}
+
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 12px);scrollbar-color:var(--green-stroke-strong) var(--bg-bottom);}
 body{
@@ -288,11 +305,12 @@ button{font-family:inherit;}
 .search-btn,
 .console-btn{
   display:flex;align-items:center;justify-content:center;
-  width:38px;height:38px;border-radius:9999px;
+  width:38px;height:38px;border-radius:9999px;padding:0;cursor:pointer;
   background:var(--glass);border:1px solid var(--glass-border);
   color:var(--light);
   transition:color .3s ease,border-color .3s ease;
 }
+.search-btn[hidden]{display:none;}
 .search-btn:hover{color:var(--text);border-color:var(--green-stroke);}
 .console-btn:hover{color:var(--green);border-color:var(--green-stroke-strong);}
 .search-btn:focus-visible,
