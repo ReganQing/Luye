@@ -24,7 +24,7 @@
     <!-- 数据徽章行（1.1.0 新增） -->
     <div class="hero-stats reveal"
          th:if="${theme.config.hero.show_stats == null or theme.config.hero.show_stats}"
-         th:with="postTotal = ${postFinder.list(1, 1).total}">
+         th:with="postTotal = ${posts.total}">
       <div class="stat">
         <span class="stat-num" th:text="${postTotal}">48</span>
         <span class="stat-label">文章</span>
@@ -55,47 +55,18 @@
   </section>
 
   <!-- ===================== 精选专题（1.1.0 新增） ===================== -->
-  <th:block th:with="featuredPosts = ${postFinder.list(1, posts.total > 0 ? posts.total : 1).items.?[spec.cover != null and spec.cover != '']}">
-  <section class="section" id="featured"
-           th:if="${(theme.config.featured?.enable == null or theme.config.featured?.enable) and !#lists.isEmpty(featuredPosts)}">
-    <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow" th:text="${theme.config.featured?.eyebrow} ?: 'FEATURED · 精选专题'">FEATURED · 精选专题</p>
-        <h2 class="title" th:text="${theme.config.featured?.title} ?: '值得停下来读的几篇'">值得停下来读的几篇</h2>
-        <p class="desc" th:if="${theme.config.featured?.desc != null and theme.config.featured?.desc != ''}"
-           th:text="${theme.config.featured.desc}">描述文案</p>
-      </div>
-
-      <!-- 从全部已发布文章中取前 3 篇带封面的文章；无候选时整个 section 不渲染 -->
-      <div class="featured-grid">
-        <article class="featured-card reveal"
-                 th:each="fpost, st : ${featuredPosts}"
-                 th:if="${st.index < 3}">
-          <a class="featured-cover" th:classappend="|fc-${st.index + 1}|"
-             th:href="@{${fpost.status.permalink}}" tabindex="-1" aria-hidden="true">
-            <!-- 封面图：优先渲染文章真实封面，加载失败时由下方渐变底兜底 -->
-            <img class="cover-img"
-                 th:if="${fpost.spec.cover != null and fpost.spec.cover != ''}"
-                 th:src="${fpost.spec.cover}" alt="" loading="lazy" decoding="async">
-            <span class="cover-leaf svg-icon icon-leaf" aria-hidden="true"></span>
-          </a>
-          <div class="post-meta">
-            <a class="cat-pill" th:each="category : ${fpost.categories}"
-               th:href="@{${category.status.permalink}}"
-               th:text="${category.spec.displayName}">分类</a>
-            <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${fpost})}"></th:block>
-          </div>
-          <a th:href="@{${fpost.status.permalink}}">
-            <h3 class="post-title" th:text="${fpost.spec.title}">文章标题</h3>
-          </a>
-          <p class="post-excerpt" th:if="${fpost.status.excerpt != null and fpost.status.excerpt != ''}"
-             th:text="${fpost.status.excerpt}">摘要</p>
-          <span class="featured-meta" th:if="${fpost.spec.publishTime != null}"
-                th:text="${#dates.format(new java.util.Date(fpost.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 12, 2026</span>
-        </article>
-      </div>
-    </div>
-  </section>
+  <th:block th:with="featuredEnabled = ${theme.config.featured?.enable == null or theme.config.featured?.enable},
+                     featuredSeed = ${posts.page == 1 ? posts.items.?[spec.cover != null and spec.cover != ''] : {}},
+                     featuredScanSize = ${50}">
+    <th:block th:if="${featuredEnabled and posts.total > 0}">
+      <!-- 首页当前页已有足够封面文章时不再查询；否则从第一页开始分批补取。 -->
+      <th:block th:if="${#lists.size(featuredSeed) >= 3}">
+        <th:block th:replace="~{modules/featured-posts :: section(${featuredSeed})}"></th:block>
+      </th:block>
+      <th:block th:if="${#lists.size(featuredSeed) < 3}">
+        <th:block th:replace="~{modules/featured-posts :: scan(page=${1}, collected=${null}, scanSize=${featuredScanSize})}"></th:block>
+      </th:block>
+    </th:block>
   </th:block>
 
   <!-- ===================== POSTS ===================== -->
