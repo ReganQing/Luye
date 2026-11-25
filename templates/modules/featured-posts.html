@@ -1,0 +1,60 @@
+<!-- 精选文章：优先复用首页当前页，不足时按固定页大小补取，够 3 篇即停止。 -->
+<!-- Halo 2.26.1 PostFinder 无封面筛选参数，不能直接按 cover 查询；避免 list(1, total) 全量装配。 -->
+<!-- Source: https://github.com/halo-dev/halo/blob/v2.26.1/application/src/main/java/run/halo/app/theme/finders/impl/PostFinderImpl.java -->
+<th:block xmlns:th="https://www.thymeleaf.org" th:fragment="scan(page, collected, scanSize)">
+  <th:block th:with="result = ${postFinder.list(page, scanSize)}">
+    <th:block th:with="merged = ${collected == null ? new java.util.ArrayList() : new java.util.ArrayList(collected)},
+                        ignored = ${merged.addAll(result.items.?[spec.cover != null and spec.cover != ''])}">
+      <th:block th:with="candidates = ${merged}, totalPages = ${(result.total + scanSize - 1) / scanSize}">
+        <th:block th:if="${#lists.size(candidates) >= 3 or page >= totalPages}">
+          <th:block th:replace="~{::section(${candidates})}"></th:block>
+        </th:block>
+        <th:block th:if="${#lists.size(candidates) < 3 and page < totalPages}">
+          <th:block th:replace="~{::scan(page=${page + 1}, collected=${candidates}, scanSize=${scanSize})}"></th:block>
+        </th:block>
+      </th:block>
+    </th:block>
+  </th:block>
+</th:block>
+
+<section class="section" id="featured" xmlns:th="https://www.thymeleaf.org"
+         th:fragment="section(featuredPosts)"
+         th:if="${(theme.config.featured?.enable == null or theme.config.featured?.enable) and !#lists.isEmpty(featuredPosts)}">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow" th:text="${theme.config.featured?.eyebrow} ?: 'FEATURED · 精选专题'">FEATURED · 精选专题</p>
+      <h2 class="title" th:text="${theme.config.featured?.title} ?: '值得停下来读的几篇'">值得停下来读的几篇</h2>
+      <p class="desc" th:if="${theme.config.featured?.desc != null and theme.config.featured?.desc != ''}"
+         th:text="${theme.config.featured.desc}">描述文案</p>
+    </div>
+
+    <!-- 从全部已发布文章中取前 3 篇带封面的文章；无候选时整个 section 不渲染 -->
+    <div class="featured-grid">
+      <article class="featured-card reveal"
+               th:each="fpost, st : ${featuredPosts}"
+               th:if="${st.index < 3}">
+        <a class="featured-cover" th:classappend="|fc-${st.index + 1}|"
+           th:href="@{${fpost.status.permalink}}" tabindex="-1" aria-hidden="true">
+          <!-- 封面图：优先渲染文章真实封面，加载失败时由下方渐变底兜底 -->
+          <img class="cover-img"
+               th:if="${fpost.spec.cover != null and fpost.spec.cover != ''}"
+               th:src="${fpost.spec.cover}" alt="" loading="lazy" decoding="async">
+          <span class="cover-leaf svg-icon icon-leaf" aria-hidden="true"></span>
+        </a>
+        <div class="post-meta">
+          <a class="cat-pill" th:each="category : ${fpost.categories}"
+             th:href="@{${category.status.permalink}}"
+             th:text="${category.spec.displayName}">分类</a>
+          <th:block th:replace="~{modules/visit-badge :: visit-badge(post=${fpost})}"></th:block>
+        </div>
+        <a th:href="@{${fpost.status.permalink}}">
+          <h3 class="post-title" th:text="${fpost.spec.title}">文章标题</h3>
+        </a>
+        <p class="post-excerpt" th:if="${fpost.status.excerpt != null and fpost.status.excerpt != ''}"
+           th:text="${fpost.status.excerpt}">摘要</p>
+        <span class="featured-meta" th:if="${fpost.spec.publishTime != null}"
+              th:text="${#dates.format(new java.util.Date(fpost.spec.publishTime.toEpochMilli()), 'MMM d, yyyy')}">Jan 12, 2026</span>
+      </article>
+    </div>
+  </div>
+</section>

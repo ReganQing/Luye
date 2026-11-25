@@ -1,4 +1,5 @@
-<nav class="nav" xmlns:th="https://www.thymeleaf.org" th:fragment="header" th:with="menu = ${menuFinder.getPrimary()}">
+<nav class="nav" xmlns:th="https://www.thymeleaf.org" th:fragment="header"
+     th:with="menu = ${menuFinder.getPrimary()}, searchWidgetAvailable = ${pluginFinder.available('PluginSearchWidget')}">
   <a class="logo" th:href="@{/}" aria-label="首页">
     <span class="leaf svg-icon icon-leaf" aria-hidden="true"></span>
     <span class="brand">
@@ -28,8 +29,13 @@
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
       </button>
     </div>
+    <button type="button" class="search-btn" data-search-widget
+            th:if="${searchWidgetAvailable}"
+            aria-label="搜索" aria-haspopup="dialog" title="搜索">
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+    </button>
     <a class="search-btn"
-       th:if="${theme.config.basic?.search_url != null and theme.config.basic?.search_url != ''}"
+       th:if="${not searchWidgetAvailable and theme.config.basic?.search_url != null and theme.config.basic?.search_url != ''}"
        th:href="@{${theme.config.basic.search_url}}" aria-label="搜索" title="搜索">
       <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
     </a>

@@ -1,5 +1,5 @@
 /* 绿野 Luye · 主题交互脚本
- * 移动端导航 / 滚动显现 / 返回顶部 / 导航高亮 / 阅读时间
+ * 移动端导航 / 官方搜索组件 / 滚动显现 / 返回顶部 / 导航高亮 / 阅读时间
  */
 (function () {
   'use strict';
@@ -29,6 +29,19 @@
         toggle.focus();
       }
     });
+  }
+
+  // ---------- 官方搜索组件 ----------
+  // 模板仅在 PluginSearchWidget 可用时渲染此按钮；API 加载失败时隐藏死按钮。
+  var searchWidgetButton = document.querySelector('.search-btn[data-search-widget]');
+  if (searchWidgetButton) {
+    if (window.SearchWidget && typeof window.SearchWidget.open === 'function') {
+      searchWidgetButton.addEventListener('click', function () {
+        window.SearchWidget.open();
+      });
+    } else {
+      searchWidgetButton.hidden = true;
+    }
   }
 
   // ---------- 返回顶部 ----------
