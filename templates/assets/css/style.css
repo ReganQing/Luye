@@ -85,6 +85,15 @@ button{font-family:inherit;}
 .container{width:100%;max-width:var(--container);margin:0 auto;padding:0 24px;}
 .content{position:relative;z-index:1;}
 
+/* 键盘用户跳过重复导航，聚焦时显示在视口顶部。 */
+.skip-link{
+  position:fixed;top:12px;left:16px;z-index:100;
+  padding:10px 18px;border-radius:9999px;
+  background:var(--green);color:#0C1712;font-weight:500;
+  transform:translateY(calc(-100% - 24px));
+}
+.skip-link:focus{transform:translateY(0);outline:2px solid var(--text);outline-offset:3px;}
+
 /* ---------- 主题化单色图标（SVG 作遮罩，填充色跟随强调色） ---------- */
 .svg-icon{
   display:block;flex:0 0 auto;
@@ -135,7 +144,7 @@ button{font-family:inherit;}
   border-bottom:2px solid transparent;
 }
 .nav-center a:hover{color:var(--text);}
-.nav-center a.active{color:var(--green);border-bottom-color:var(--green-stroke-strong);}
+.nav-center a.active,.nav-center a[aria-current="page"]{color:var(--green);border-bottom-color:var(--green-stroke-strong);}
 .nav-right{display:flex;align-items:center;gap:14px;flex:0 0 auto;}
 .nav-cta{
   display:flex;align-items:center;justify-content:center;
@@ -418,7 +427,7 @@ button{font-family:inherit;}
 .reading-time{display:inline-flex;align-items:center;gap:5px;}
 .reading-time-icon{width:14px;height:14px;flex-shrink:0;}
 .post-cover{
-  width:100%;max-width:1000px;margin:30px auto 0;display:block;
+  width:100%;max-width:1000px;height:auto;margin:30px auto 0;display:block;
   border-radius:24px;border:1px solid var(--glass-border);object-fit:cover;
 }
 .post-panel{

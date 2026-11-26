@@ -10,7 +10,7 @@
       <p class="eyebrow">AUTHOR · 作者</p>
       <h1 class="title" th:text="${author.spec.displayName}">作者名</h1>
       <div class="portrait">
-        <img class="photo" th:if="${author.spec.avatar != null and author.spec.avatar != ''}"
+        <img class="photo" width="220" height="220" th:if="${author.spec.avatar != null and author.spec.avatar != ''}"
              th:src="${author.spec.avatar}" alt="头像">
         <th:block th:unless="${author.spec.avatar != null and author.spec.avatar != ''}">
           <span class="badge svg-icon icon-mountain" aria-hidden="true"></span>

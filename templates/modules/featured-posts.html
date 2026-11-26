@@ -36,7 +36,7 @@
         <a class="featured-cover" th:classappend="|fc-${st.index + 1}|"
            th:href="@{${fpost.status.permalink}}" tabindex="-1" aria-hidden="true">
           <!-- 封面图：优先渲染文章真实封面，加载失败时由下方渐变底兜底 -->
-          <img class="cover-img"
+          <img class="cover-img" width="800" height="500"
                th:if="${fpost.spec.cover != null and fpost.spec.cover != ''}"
                th:src="${fpost.spec.cover}" alt="" loading="lazy" decoding="async">
           <span class="cover-leaf svg-icon icon-leaf" aria-hidden="true"></span>

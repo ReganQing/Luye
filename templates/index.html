@@ -49,7 +49,7 @@
     </div>
 
     <p class="scroll-hint">向下，进入我的世界</p>
-    <img class="hero-img"
+    <img class="hero-img" width="1400" height="400"
          th:if="${theme.config.hero.image != null and theme.config.hero.image != ''}"
          th:src="${theme.config.hero.image}" alt="横幅意象图" decoding="async">
   </section>
@@ -140,7 +140,7 @@
     <div class="container">
       <div class="author-card reveal">
         <div class="avatar-badge">
-          <img class="photo"
+          <img class="photo" width="160" height="160"
                th:if="${theme.config.basic?.avatar != null and theme.config.basic?.avatar != ''}"
                th:src="${theme.config.basic.avatar}" alt="作者头像" loading="lazy" decoding="async">
           <span class="badge svg-icon icon-leaf"

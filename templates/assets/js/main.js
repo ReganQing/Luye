@@ -88,6 +88,7 @@
       var ap = url.pathname.replace(/\/+$/, '') || '/';
       if (url.origin === window.location.origin && ap === path) {
         a.classList.add('active');
+        a.setAttribute('aria-current', 'page');
       }
     });
   } catch (e) { /* 忽略 */ }
