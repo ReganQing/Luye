@@ -12,7 +12,7 @@
       <p class="eyebrow">ABOUT · 关于我</p>
       <h1 class="title" th:text="${singlePage.spec.title}">我是谁</h1>
       <div class="portrait">
-        <img class="photo"
+        <img class="photo" width="220" height="220"
              th:if="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}"
              th:src="${theme.config.basic.avatar}" alt="头像">
         <th:block th:unless="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}">

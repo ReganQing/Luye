@@ -25,7 +25,7 @@
           <span class="reading-time-text"></span>
         </span>
       </div>
-      <img class="post-cover"
+      <img class="post-cover" width="1200" height="675"
            th:if="${post.spec.cover != null and post.spec.cover != ''}"
            th:src="${post.spec.cover}" th:alt="${post.spec.title}" decoding="async" fetchpriority="high">
     </header>
@@ -44,7 +44,7 @@
 
       <!-- 作者信息条 -->
       <div class="author-bar">
-        <img class="avatar" th:if="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}"
+        <img class="avatar" width="52" height="52" th:if="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}"
              th:src="${theme.config.basic.avatar}" alt="头像">
         <span class="avatar-badge" th:unless="${theme.config.basic.avatar != null and theme.config.basic.avatar != ''}">
           <span class="svg-icon icon-mountain" aria-hidden="true"></span>

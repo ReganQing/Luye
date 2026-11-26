@@ -20,6 +20,8 @@
   </th:block>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">跳至正文</a>
+
   <!-- 装饰雾光 -->
   <div class="fog fog-1"></div>
   <div class="fog fog-2"></div>
@@ -27,7 +29,9 @@
 
   <div class="content">
     <th:block th:replace="~{modules/header :: header}"></th:block>
-    <th:block th:replace="${content}"></th:block>
+    <main id="main-content" tabindex="-1">
+      <th:block th:replace="${content}"></th:block>
+    </main>
     <th:block th:replace="~{modules/footer :: footer}"></th:block>
   </div>
 
