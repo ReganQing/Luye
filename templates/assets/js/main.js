@@ -4,6 +4,92 @@
 (function () {
   'use strict';
 
+  // ---------- 配色方案 ----------
+  var COLOR_SCHEME_KEY = 'luye-color-scheme';
+  var COLOR_SCHEMES = ['dark', 'light', 'system'];
+  var root = document.documentElement;
+  var themeToggle = document.querySelector('[data-theme-toggle]');
+  var themeColorMeta = document.getElementById('theme-color-meta');
+  var systemSchemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
+
+  function readColorScheme() {
+    try {
+      var value = window.localStorage.getItem(COLOR_SCHEME_KEY);
+      return COLOR_SCHEMES.indexOf(value) !== -1 ? value : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function storeColorScheme(value) {
+    try {
+      window.localStorage.setItem(COLOR_SCHEME_KEY, value);
+    } catch (e) { /* 存储不可用（隐私模式等）：仅本次会话有效 */ }
+  }
+
+  function resolveColorScheme(mode) {
+    if (mode === 'light') { return 'light'; }
+    if (mode === 'system') {
+      return systemSchemeQuery && systemSchemeQuery.matches ? 'light' : 'dark';
+    }
+    return 'dark';
+  }
+
+  function updateThemeToggle(scheme) {
+    if (!themeToggle) { return; }
+    var next = scheme === 'dark' ? '浅色' : '深色';
+    var label = '切换到' + next + '主题';
+    themeToggle.hidden = false;
+    themeToggle.setAttribute('aria-label', label);
+    themeToggle.setAttribute('title', label);
+  }
+
+  function updateThemeColor(scheme) {
+    if (!themeColorMeta) { return; }
+    var color = scheme === 'light' ? '#F6FAF6' : '#0E1F17';
+    if (window.getComputedStyle) {
+      var token = window.getComputedStyle(root).getPropertyValue('--bg-top').trim();
+      if (token) { color = token; }
+    }
+    themeColorMeta.setAttribute('content', color);
+  }
+
+  function applyColorScheme(scheme, persist) {
+    if (scheme !== 'dark' && scheme !== 'light') { scheme = 'dark'; }
+    root.setAttribute('data-color-scheme', scheme);
+    root.style.colorScheme = scheme;
+    updateThemeToggle(scheme);
+    updateThemeColor(scheme);
+    if (persist) { storeColorScheme(scheme); }
+    if (typeof CustomEvent === 'function') {
+      document.dispatchEvent(new CustomEvent('luye:colorschemechange', {
+        detail: { colorScheme: scheme }
+      }));
+    }
+  }
+
+  var configuredColorScheme = root.getAttribute('data-theme-mode') || 'dark';
+  if (COLOR_SCHEMES.indexOf(configuredColorScheme) === -1) { configuredColorScheme = 'dark'; }
+  applyColorScheme(resolveColorScheme(readColorScheme() || configuredColorScheme), false);
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', function () {
+      var current = root.getAttribute('data-color-scheme') === 'light' ? 'light' : 'dark';
+      applyColorScheme(current === 'light' ? 'dark' : 'light', true);
+    });
+  }
+
+  function onSystemSchemeChange() {
+    var stored = readColorScheme();
+    if (!stored || stored === 'system') {
+      applyColorScheme(resolveColorScheme(stored || configuredColorScheme), false);
+    }
+  }
+  if (systemSchemeQuery) {
+    if (systemSchemeQuery.addEventListener) { systemSchemeQuery.addEventListener('change', onSystemSchemeChange); }
+    else if (systemSchemeQuery.addListener) { systemSchemeQuery.addListener(onSystemSchemeChange); }
+  }
+
   // ---------- 移动端导航 ----------
   var toggle = document.getElementById('nav-toggle');
   function setNav(open) {
