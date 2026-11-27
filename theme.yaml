@@ -7,7 +7,7 @@ spec:
   author:
     name: Ron567
     website: https://github.com/ReganQing
-  description: 深绿玻璃拟态（Glassmorphism）风格的 Halo 2 主题，视觉语言移植自 Ron567 个人主页：雾绿光晕、玻璃卡片、衬线大标题与晴雨雪三种背景粒子特效。
+  description: 深绿玻璃拟态（Glassmorphism）风格的 Halo 2 主题，视觉语言移植自 Ron567 个人主页：雾绿光晕、玻璃卡片、衬线大标题与晴雨雪三种背景粒子特效；支持深色、浅色与跟随系统配色。
   logo: logo.png
   homepage: https://github.com/ReganQing/Luye
   repo: https://github.com/ReganQing/Luye
@@ -20,7 +20,7 @@ spec:
         description: 个人介绍版式：眉题 + 大标题 + 头像圆形玻璃徽章 + 正文，适合「关于」页面。
         screenshot: ""
         file: page_about.html
-  version: 1.4.3
+  version: 1.5.0
   requires: 2.26.0
   license:
     - name: GPL-3.0

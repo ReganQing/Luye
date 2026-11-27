@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-color-scheme="dark" xmlns:th="https://www.thymeleaf.org" th:fragment="html (head, content)">
+<html lang="zh-CN" data-color-scheme="dark" data-theme-mode="dark" xmlns:th="https://www.thymeleaf.org" th:fragment="html (head, content)"
+      th:attr="data-theme-mode=${theme.config.style.color_scheme == null ? 'dark' : theme.config.style.color_scheme}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0E1F17">
+  <meta name="theme-color" id="theme-color-meta" content="#0E1F17">
   <title th:if="${head == null}" th:text="${site.title}">站点标题</title>
+  <script>
+    /* 在样式表之前解析配色，避免刷新时出现深浅主题闪烁。 */
+    (function () {
+      var root = document.documentElement;
+      var mode = root.getAttribute('data-theme-mode') || 'dark';
+      try {
+        var stored = window.localStorage.getItem('luye-color-scheme');
+        if (stored === 'dark' || stored === 'light' || stored === 'system') { mode = stored; }
+      } catch (e) { /* 本地存储不可用时使用主题默认值 */ }
+      var scheme = mode;
+      if (mode === 'system') {
+        scheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      root.setAttribute('data-color-scheme', scheme);
+      root.style.colorScheme = scheme;
+    })();
+  </script>
   <th:block th:if="${theme.config.style.webfont == null or theme.config.style.webfont}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +32,7 @@
   <!-- 脚本未加载或未执行时保持内容可见；main.js 初始化后再启用滚动显现。 -->
   <style>html:not(.reveal-ready) .reveal{opacity:1;transform:none;transition:none;}</style>
   <style th:if="${theme.config.style.accent_color != null and theme.config.style.accent_color != ''}"
-        th:inline="text">:root{--green:[[${theme.config.style.accent_color}]];}</style>
+        th:inline="text">:root{--accent:[[${theme.config.style.accent_color}]];}</style>
   <th:block th:if="${head != null}">
     <th:block th:replace="${head}"></th:block>
   </th:block>

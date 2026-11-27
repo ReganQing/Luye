@@ -186,6 +186,7 @@
     ctx.clearRect(0, 0, width, height);
     var t = performance.now() / 1000;
     var i, p, dx;
+    var lightScheme = document.documentElement.getAttribute('data-color-scheme') === 'light';
     if (mode === 'sun') {
       drawLightShafts(t);
       var sprite = getSunSprite();
@@ -197,7 +198,7 @@
       }
       ctx.globalAlpha = 1;
     } else if (mode === 'rain') {
-      ctx.strokeStyle = 'rgb(174, 205, 224)';
+      ctx.strokeStyle = lightScheme ? '#668CA1' : 'rgb(174, 205, 224)';
       ctx.lineWidth = 1.1;
       ctx.lineCap = 'round';
       for (i = 0; i < particles.length; i++) {
@@ -211,7 +212,7 @@
       }
       ctx.globalAlpha = 1;
     } else if (mode === 'snow') {
-      ctx.fillStyle = '#FFFFFF';
+      ctx.fillStyle = lightScheme ? '#587064' : '#FFFFFF';
       for (i = 0; i < particles.length; i++) {
         p = particles[i];
         dx = p.x + Math.sin(t * 0.6 + p.phase) * p.sway;
@@ -320,6 +321,11 @@
     } else if (mode !== 'off' && !reducedMotion) {
       startLoop();
     }
+  });
+
+  document.addEventListener('luye:colorschemechange', function () {
+    // 正常动画会在下一帧读取新配色；减少动态模式下需要立即重绘静态帧。
+    if (mode !== 'off' && reducedMotion) { drawFrame(); }
   });
 
   function onMotionChange(e) {
